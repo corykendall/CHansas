@@ -1,0 +1,11 @@
+#!/bin/bash
+echo "Frontend starting"
+logfile="/home/ec2-user/hansa/logs/frontend_outerr.log"
+echo "start script: $(date) start" >> $logfile
+setsid go run main.go >> $logfile 2>&1 & 
+pid=$!
+echo "pid: $pid"
+pgid=$(ps -o %r $pid | grep -v PGID | sed 's/^ //')
+echo "pgid: $pgid"
+echo $pgid > pgid.txt
+echo "Frontend start success"

@@ -1,0 +1,19 @@
+#!/bin/bash
+rm -Rf build/*
+
+go build main.go &&
+./genhaml &&
+mv main build &&
+cp bin/* build &&
+cp -R s build &&
+cp -R html build &&
+uglifyjs s/js/about.js -c -m -o build/s/js/about.js &&
+uglifyjs s/js/cookie.js -c -m -o build/s/js/cookie.js &&
+uglifyjs s/js/email.js -c -m -o build/s/js/email.js &&
+uglifyjs s/js/header.js -c -m -o build/s/js/header.js &&
+uglifyjs s/js/game.js -c -m -o build/s/js/game.js &&
+uglifyjs s/js/lobby.js -c -m -o build/s/js/lobby.js &&
+uglifyjs s/js/password.js -c -m -o build/s/js/password.js &&
+uglifyjs s/js/release.js -c -m -o build/s/js/release.js &&
+echo "" &&
+echo "Success"

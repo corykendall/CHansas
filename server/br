@@ -1,0 +1,20 @@
+#!/bin/bash
+clear
+cd src/
+go install ./...
+exitcode=$?
+cd ..
+if (( $exitcode != 0 )); then
+    exit $exitcode
+fi
+
+rm -Rf build/*
+cp restart build
+cp start build
+cp stop build
+cp roughstop build
+
+./roughstop
+cp $GOPATH/bin/hansa build
+cp $GOPATH/bin/hansa .
+./start

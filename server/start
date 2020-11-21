@@ -1,0 +1,20 @@
+#!/bin/bash
+port=9000
+
+if [ $(netstat -napl 2>/dev/null | grep :::$port | wc -l 2>/dev/null) != 0 ];
+then
+    echo "Port $port already in use, fail"
+    exit 1
+fi
+
+echo starting
+logdir="/home/ec2-user/hansa/logs"
+logfile="$logdir/server_outerr.log"
+echo logfile: $logfile
+setsid "/home/ec2-user/hansa/server/hansa" >> $logfile 2>&1 &
+pid=$!
+echo "pid: $pid"
+pgid=$(ps -o %r $pid | grep -v PGID | sed 's/^ //')
+echo "pgid: $pgid"
+echo $pgid > "/home/ec2-user/hansa/server/pgid.txt"
+echo success

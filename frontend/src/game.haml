@@ -1,0 +1,69 @@
+!!! 5
+%html
+  %head
+    %meta{:charset => "utf-8"}
+    %title CHansas
+    %link{:rel => "stylesheet", :href => "/s/css/header.css?VERSION_STRING"}
+    %link{:rel => "stylesheet", :href => "/s/css/game.css?VERSION_STRING"}
+    %script{:rel => "text/javascript", :src => "/s/js/header.js?VERSION_STRING"}
+    %script{:rel => "text/javascript", :src => "/s/js/game.js?VERSION_STRING"}
+  %body
+    .wsdead-overlay
+      .wsdead-overlay-message
+        Reconnecting...
+    .signout-overlay
+      .signout-overlay-message
+        Success!  Reloading the page...
+    .toast-container
+    .header
+      .leftholder
+        %a.sitetitle{:href => "/"} CHansas
+        .sitetag alpha
+        %a.siteabout{:href => "/hansa"} About
+        %a.siterelease{:href => "/release"} Release
+      .rightholder
+        .signup-holder.header-tabholder
+          .signup.header-tabtitle Sign up
+        .signup-popup.header-popup
+          .signinup-label Email
+          %input.signup-email
+          .signinup-label Username (4-16 alphanumeric)
+          %input.signup-username
+          .signinup-label Password (4-32 no requirements)
+          %input.signup-password1{:type => "password"}
+          .signinup-label Retype Password
+          %input.signup-password2{:type => "password"}
+          .signup-loader
+            .loader
+          %button.signup-button Sign up
+          .signinup-error.signup-error
+          .signinup-success.signup-checkemail
+        .signin-holder.header-tabholder
+          .signin.header-tabtitle Sign in
+        .signin-popup.header-popup
+          .signinup-label Email
+          %input.signin-email
+          .signinup-label Password
+          %input.signin-password{:type => "password"}
+          %button.signin-resetpw-button Reset Password
+          %button.signin-button Sign in
+          .signin-loader
+            .loader
+          .signinup-error.signin-error
+          .signinup-success.signin-success
+        .identity-holder.header-tabholder
+          .identity.header-tabtitle
+            .identity-id
+            .identity-name
+        .identity-popup.header-popup
+          .identity-links
+            .identity-link.signup-link
+              .icon.iconplayer
+              Sign up
+            .identity-link.signout-link
+              .icon.iconseat
+              Sign out
+    .game
+      .board
+      .playerboards
+    .footer

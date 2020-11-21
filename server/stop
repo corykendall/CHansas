@@ -1,0 +1,14 @@
+#!/bin/bash
+port=9000
+
+if test -f "pgid.txt"; then
+    curl "http://localhost:$port/a/hotdeploy"
+    rm pgid.txt
+else
+    echo "no pgid.txt file, checking availability of port $port"
+    if [ $(netstat -napl 2>/dev/null | grep :::$port | wc -l 2>/dev/null) != 0 ]; then
+        echo "port $port in use"
+        echo "failure"
+        exit 1
+    fi
+fi

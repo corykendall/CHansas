@@ -1,0 +1,14 @@
+server/hansa
+server/build
+server/pgid.txt
+server/*.vim
+server/todo.txt
+frontend/build
+frontend/pgid.txt
+frontend/*.vim
+frontend/todo.txt
+frontend/html
+server.cfg
+logs
+rds
+deploy

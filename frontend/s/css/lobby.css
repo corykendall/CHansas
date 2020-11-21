@@ -1,0 +1,891 @@
+.flex-margins {
+    margin: auto;
+    max-width: 1450px;
+}
+
+.flex-container {
+    display: flex;
+    flex-flow: row wrap;
+    padding-top: 20px;
+    max-width: 1450px;
+    min-width: 600px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.left-flex {
+    order: 2;
+    width: 100%;
+}
+
+.center-flex {
+    order: 1;
+    width: 100%;
+}
+
+.right-flex {
+    order: 3;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@media (min-width: 900px) {
+    .left-flex {
+        order: 1;
+        width: 24%;
+        margin-right: 20px;
+    }
+
+    .center-flex {
+        order: 2;
+        width: 70%;
+        margin-left: 20px;
+    }
+
+    .right-flex {
+        order: 3;
+        width: 24%;
+        min-height: 20px;
+    }
+}
+
+@media (min-width: 1260px) {
+    .left-flex {
+        order: 1;
+        width: 19%;
+        margin-right: 20px;
+    }
+
+    .center-flex {
+        order: 2;
+        width: 55%;
+        margin-left: 20px;
+        margin-right: 20px;
+        
+    }
+
+    .right-flex {
+        order: 3;
+        width: 19%;
+        margin-left: 20px;
+    }
+}
+
+.create-button {
+    margin-bottom: 20px;
+}
+
+.lobby {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    border: 6px solid;
+    border-radius: 5px;
+    border-color: #262626;
+    margin-top: 10px;
+    margin-bottom: -10px;
+}
+
+.lobby-titlebar {
+    padding: 10px;
+    cursor: default;
+}
+
+.lobby-title {
+    display: inline-block;
+    font-size: 16pt;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.lobby-tabbar {
+    text-align: left;
+}
+
+.lobby-tabtitle {
+    display: inline-block;
+    width: 25%;
+    min-width: 160px;
+    padding: 10px 10px;
+    cursor: pointer;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.lobby-tabtitle-live {
+    background-color: rgb(50, 0, 0);
+    margin-left: 20px;
+}
+
+.lobby-tabtitle-sng {
+    background-color: rgb(0, 0, 50);
+}
+
+.lobby-tabtitle-mtt {
+    background-color: rgb(0, 50, 0);
+}
+
+.lobby-tabcontainer {
+    display: none;
+}
+
+.lobby-tabcontainer.selected {
+    display: block;
+}
+
+.banner {
+    display: inline-block;
+    cursor: default;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    border: 6px solid;
+    border-radius: 5px;
+    border-color: #262626;
+    color: rgb(193,133,13);
+    margin-bottom: 30px;
+    padding: 10px;
+    font-size: 11pt !important;
+}
+
+.lobby table {
+    border-collapse:collapse;
+    text-align: center;
+    padding: 5px;
+    width: 100%;
+}
+
+.lobby table a {
+    color: rgb(193,133,13);
+    text-decoration: underline;
+}
+
+.lobby table a:hover {
+    color: white;
+}
+
+.playername-yellow {
+    color: rgb(255,255,0);
+}
+.playername-green {
+    color: rgb(0,255,0);
+}
+.playername-blue {
+    color: rgb(128,128,255);
+}
+.playername-purple {
+    color: rgb(255,0,255);
+}
+.playername-red {
+    color: rgb(255,0,0);
+}
+
+
+
+
+.lobby th {
+    padding:4px 10px;
+    font-weight: unset;
+    color: #696969;
+}
+
+.lobby thead tr {
+    cursor: default;
+    border-bottom: 1px solid #262626;
+}
+
+tr.light {
+    background-color: #1A1A1A;
+}
+
+.lobby tbody tr {
+    height: 90px;
+}
+
+.lobby-live tr.light {
+    background-color: rgb(60,0,0);
+}
+
+.lobby-live tbody tr:hover {
+    background-color: rgb(195,133,13);
+}
+
+.lobby-live td {
+    padding:13px;
+}
+
+.lobby-live td.stake {
+    padding:3px;
+    min-width: 80px;
+}
+
+.lobby-live td.playerseats {
+    min-width: 210px;
+}
+
+.stack1 {
+    display: inline-block;
+    margin: 0px 3px;
+}
+
+.stack2 {
+    display: inline-block;
+}
+
+.stack3 {
+    display: inline-block;
+}
+
+.haschips {
+    width: 25px;
+    height: 35px;
+}
+
+.stakechips {
+    display: inline-block;
+    position: relative;
+    top: -3px;
+}
+
+.stakeslash {
+    display: inline-block;
+    position: relative;
+    top: -19px;
+}
+
+.stakevalue {
+    display: block;
+    margin: -2px 11px;
+}
+
+.lobby-loader {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 16px;
+    bottom: 0;
+    left: -10px;
+    right: 0;
+    margin: auto;
+}
+
+.lobby-sng {
+    position: relative;
+    text-align: left;
+}
+
+.sng-table {
+    display: inline-block;
+    width: 400px;
+    max-height: 600px;
+    overflow-y: scroll;
+}
+
+.sng-table tbody tr {
+    cursor: pointer;
+}
+
+.sng-table td {
+    padding: 11px 0px;
+    height: 20px;
+}
+
+.sng-table tr.light {
+    background-color: rgb(0,0,70);
+}
+
+.sng-table tr.selected {
+    color: rgb(193,133,13);
+    background-color: #262626;
+}
+
+.sng-table tbody tr:hover {
+    background-color: rgb(193,133,13);
+    color: white;
+}
+
+.sng-table tbody tr.selected:hover {
+    background-color: #262626;
+    color: white;
+}
+
+.sng-table .icon {
+    position: relative;
+    top: -2px;
+    vertical-align: inherit;
+}
+
+.sng-table tr.selected .sng-table-popout-connecter {
+    display: block;
+}
+
+.lobby-sng th.right-border {
+    border-right: 1px solid #404040;
+}
+
+.lobby-sng td.right-border {
+    border-right: 1px solid #404040;
+}
+
+.sng-status {
+    color: #696969;
+    font-style: italic;
+}
+
+.sng-registering .sng-status {
+    color: rgb(193,133,13);
+    font-style: normal;
+}
+
+.sng-registering:hover .sng-status {
+    color: white;
+    font-style: normal;
+}
+
+.sng-running .sng-status {
+    color: rgb(150,255,150);
+    font-style: normal;
+}
+
+.sng-complete td {
+    color: #696969;
+    font-style: italic;
+}
+
+.sng-info {
+    display: inline-block;
+    width: calc(100% - 410px);
+    height: 380px;
+    vertical-align: top;
+}
+
+.sng-inner-info {
+    display: none;
+    border: 6px solid #262626;
+    width: 95%;
+    margin-left: 2.5%;
+    margin-top: 2.5%;
+    height: 95%;
+    background-color: #262626;
+    box-sizing: border-box;
+    text-align: center;
+    overflow-y: auto;
+}
+
+.sng-inner-info.selected {
+    display: block;
+}
+
+.sng-info .big-button{
+    margin-bottom: 10px;
+    width: 90%;
+    cursor: pointer;
+}
+
+.bot-information {
+    margin-bottom: 10px;
+    height: 18px;
+    min-width: 200px;
+}
+
+.bot-information-orange {
+    display: inline-block;
+    color: rgb(193,133,13);
+}
+
+.bot-information-timer {
+    display: inline-block;
+}
+
+.sng-info table {
+    display: inline-block;
+    vertical-align: top;
+    cursor: default;
+    text-align: left;
+    border: 1px solid #404040;
+    width: 90%;
+    margin-bottom: 10px;
+}
+
+.sng-info table thead {
+    border-bottom: 1px solid #404040;
+}
+
+.sng-spin-payout {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.sng-inner-info a {
+    color: rgb(193,133,13);
+    text-decoration: underline;
+}
+
+.sng-inner-info a:hover {
+    color: white;
+}
+
+.sng-spin-payouttd {
+    font-size: 9pt;
+}
+
+.sng-payouts-blinds {
+    height: 140px;
+    overflow-y: auto;
+}
+
+.sng-payouts-blinds-template {
+    display: none;
+}
+
+.sng-info td.td-center {
+    text-align: center;
+}
+
+.sng-info td .icon {
+    margin: 0px;
+}
+
+td.orange {
+    color: rgb(193,133,13);
+}
+
+td.green {
+    color: rgb(150,255,150);
+}
+
+.sng-table-number {
+    width: 20px;
+}
+
+.blind-information {
+    margin-bottom: 10px;
+}
+
+.lobby-mtt {
+    position: relative;
+    text-align: left;
+}
+
+.mtt-table {
+    display: inline-block;
+    width: 400px;
+    text-align: center;
+}
+
+.mtt-entry {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.mtt-entry.light {
+    background-color: rgb(0,60,0);
+}
+
+.mtt-entry.selected {
+    background-color: #262626;
+    color: rgb(193,133,19);
+}
+
+.mtt-entry.selected:hover {
+    background-color: #262626;
+    color: rgb(193,133,19);
+}
+
+.mtt-entry:hover {
+    background-color: rgb(193,133,19);
+}
+
+.mtt-title {
+    font-size: 14pt;
+    color: white;
+    padding-bottom: 10px;
+}
+
+.mtt-title.selected {
+    color: rgb(193,133,19);
+}
+
+.mtt-description {
+    color: #696969;
+}
+
+.mtt-info {
+    display: inline-block;
+    width: calc(100% - 410px);
+    vertical-align: top;
+}
+
+.mtt-inner-info {
+    display: none;
+    border: 6px solid #262626;
+    width: 99%;
+    margin-top: 2.5%;
+    height: 530px;
+    background-color: #262626;
+    box-sizing: border-box;
+    text-align: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.mtt-inner-info.selected {
+    display: block;
+}
+
+.mtt-inner-info .icon {
+    margin: 0px;
+}
+
+.mtt-info .big-button{
+    margin-bottom: 10px;
+    width: 90%;
+    cursor: pointer;
+}
+
+.mtt-payouts {
+    border-top: 1px solid gray;
+    margin-top: 10px;
+    text-align: left;
+
+}
+
+.mtt-payouts td.small {
+    width: 30px;
+}
+
+.mtt-payouts td.kindasmall {
+    width: 100px;
+}
+
+.mtt-timer {
+    display: inline-block;
+}
+
+.lobby-playerstats {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    border: 6px solid;
+    border-radius: 5px;
+    border-color: #262626;
+    color: #909090;
+    margin-bottom: 30px;
+    font-size: 11pt;
+}
+
+.lobby-playerstats-active {
+    display: inline-block;
+}
+
+.lobby-playerstats-activecount {
+    display: inline-block;
+    margin-right: 30px;
+}
+
+.lobby-playerstats-observers {
+    display: inline-block;
+}
+
+.lobby-playerstats-observerscount {
+    display: inline-block;
+    margin-right: 30px;
+}
+
+.lobby-playerstats-registered {
+    display: inline-block;
+}
+
+.lobby-playerstats-registeredcount {
+    display: inline-block;
+}
+
+.lobby-leagueinfo {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    border: 6px solid;
+    border-radius: 5px;
+    border-color: #262626;
+    color: #909090;
+    margin-bottom: 30px;
+    font-size: 11pt;
+    text-align: center;
+}
+
+.lobby-leagueinfo-titlebar {
+    padding: 10px;
+    border-bottom: 1px solid #262626;
+    cursor: default;
+    color: #BABABA;
+}
+
+.lobby-leagueinfo-title {
+    display: inline-block;
+    font-size: 16pt;
+    padding: 0px 10px;
+}
+
+.lobby-leagueinfo-help {
+    display: inline-block;
+    font-size: 8pt;
+}
+
+.lobby-leagueinfo-headerinfo {
+    display: inline-block;
+    max-width: 400px;
+    padding: 10px;
+}
+
+.beta-league-dropdown-styling {
+    display: inline-block;
+    text-align: center;
+    color: rgb(0,200,255);
+    border: 1px solid rgb(0,200,255);
+    border-radius: 5px;
+    width: 16px;
+    height: 16px;
+}
+
+.lobby-leagueinfo .centerlol {
+    display: inline-block;
+    position: relative;
+    top: -25px;
+
+}
+
+.lobby-leagueinfo table {
+    display: inline-block;
+    vertical-align: top;
+    border-collapse:collapse;
+    background-color: #202020;
+    text-align: center;
+    padding: 5px;
+    width: 48%;
+    border: 1px solid #262626;
+}
+
+.lobby-leagueinfo th {
+    padding:2px;
+    font-weight: unset;
+    color: #696969;
+}
+
+.lobby-leagueinfo tr {
+    border-bottom: 1px solid #262626;
+}
+
+.lobby-leagueinfo thead tr {
+    border-bottom: 1px solid #262626;
+}
+
+.lobby-leagueinfo td {
+    padding:5px;
+}
+
+.lobby-leagueinfo .challenge-rewards {
+    width: 230px;
+}
+
+.lobby-leagueinfo .leaderboard-rewards {
+    width: 268px;
+}
+
+.lobby-leagueinfo .donation-rewards {
+    width: 205px;
+}
+
+.lobby-leagueinfo .donation-how {
+    padding: 10px;
+}
+
+.lobby-leagueinfo .plaque {
+    margin: 11px 0px;
+}
+
+.leaderboard-loader {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 58px;
+    bottom: 0;
+    left: -15px;
+    right: 0;
+    margin: auto;
+}
+
+.fast-buttons {
+    display: none;
+    margin-bottom: 10px;
+}
+
+.legend {
+    display: inline-block;
+    border: 6px solid #262626;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 10pt;
+}
+
+.legend-title {
+    font-size: 16pt;
+    padding: 10px;
+    border-bottom: 1px solid #262626;
+}
+
+.legend-content {
+    background-color: #262626;
+}
+
+.legend-left {
+    display: inline-block;
+    width: 49%;
+    vertical-align: top;
+}
+
+.legend-right {
+    display: inline-block;
+    width: 49%;
+}
+
+.legend-entry {
+    text-align: left;
+}
+
+.legend .stakechips {
+    top: 0px;
+}
+
+.legend .haschips {
+    position: relative;
+    height: 20px;
+}
+
+.legend .chips1 { background: url(/s/img/chips.png) 0px -15px; }
+.legend .chips5 { background: url(/s/img/chips.png) -100px -15px; }
+.legend .chips25 { background: url(/s/img/chips.png) 0px -50px; }
+.legend .chips100 { background: url(/s/img/chips.png) -75px -50px; }
+.legend .chips500 { background: url(/s/img/chips.png) 0px -85px; }
+.legend .chips2500 { background: url(/s/img/chips.png) -100px -85px; }
+
+.recentachievements {
+    display: inline-block;
+    border: 6px solid #262626;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 10pt;
+    margin-top: 30px;
+}
+
+.recentacv-title {
+    font-size: 16pt;
+    padding: 10px;
+    border-bottom: 1px solid #262626;
+}
+
+.achievement {
+    display: inline-block;
+    background-color: #262626;
+    width: 100%;
+    max-width: 300px;
+    vertical-align: top;
+    cursor: default;
+}
+
+.minor-acv {
+    margin-bottom: 10px;
+}
+
+.achievement .icon.icon-status {
+    vertical-align: sub;
+    background: url(/s/img/icons.png?v6) -176px 0px;
+    width: 14px;
+}
+
+.achievement-title-bar {
+    position: relative;
+    border-bottom: 1px solid #404040;
+    line-height: 2.1em;
+    color: rgb(193,133,13);
+    background-color: #161512;
+}
+
+.achievement-title {
+    display: inline-block;
+}
+
+.achievement-title a {
+    color: rgb(195,133,13);
+    display: inline-block;
+}
+
+.achievement-title a:hover {
+    color: #CACACA;
+}
+
+.achievement-text {
+    line-height: 2.1em;
+}
+
+.achievement-spacer {
+    height: 10px;
+}
+
+.achievement-reward {
+    position: relative;
+    font-style: italic;
+    font-size: 9pt;
+    color: #909090;
+    text-align: left;
+}
+
+.achievement-earned {
+    display: inline-block;
+}
+
+.achievement-score {
+    display: inline-block;
+    position: absolute;
+    right: 5px;
+}
+
+.discord {
+    display: inline-block;
+    border: 6px solid #262626;
+    box-sizing: border-box;
+    margin-top: 30px;
+    width: 100%;
+    font-size: 10pt;
+}
+
+.discord-title {
+    font-size: 16pt;
+    padding: 10px;
+    border-bottom: 1px solid #262626;
+}
+
+.discord-content {
+    background-color: #262626;
+}
+
+.donation {
+    display: inline-block;
+    border: 6px solid #262626;
+    box-sizing: border-box;
+    margin-top: 30px;
+    width: 100%;
+    font-size: 10pt;
+}
+
+.donation-title {
+    font-size: 16pt;
+    padding: 10px;
+    border-bottom: 1px solid #262626;
+}
+
+.donation-content {
+    background-color: #262626;
+}

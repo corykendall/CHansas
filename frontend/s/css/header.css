@@ -1,0 +1,1118 @@
+body {
+    color: #BABABA;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 11pt;
+    background: #161512 linear-gradient(to bottom, #2e2a24, #161512 116px) no-repeat;
+    text-align: center;
+    max-width: 1800px;
+    margin: 0px auto;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+}
+
+body.zoomouthelper {
+    width: 10000px;
+    height: 3000px;
+}
+
+button:focus {
+    outline: none;
+}
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+body .hideuntilfire {
+    display: none;
+}
+
+.inlineblock {
+    display: inline-block;
+}
+
+@keyframes kf-fadeOut {
+   0% {opacity: 1;}
+   100% {opacity: 0;}
+}
+
+@keyframes kf-fadeIn {
+   0% {opacity: 0;}
+   100% {opacity: 1;}
+}
+
+.big-button {
+    color: white;
+    background-color: rgb(195, 133, 13);
+    width: 100%;
+    height: 40px;
+    border: 3px outset rgb(135,73,0);
+    border-radius: 3px;
+    font-size: 14pt;
+}
+
+.big-button:active {
+    border-style: inset;
+}
+
+.big-button:disabled {
+    background-color: rgb(120,120,120);
+    border-color: rgb(180,180,180);
+}
+
+.blockdiv {
+    display: block;
+    width: 0px;
+    height: 0px;
+}
+
+.featureflagged {
+    display: none;
+}
+
+.wsdead-overlay {
+    display: none;
+    position: fixed;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    color: #FFAAAA;
+    font-size: 20pt;
+    cursor: default;
+}
+
+.wsdead-overlay-message {
+    position: relative;
+    top: 50%;
+    margin-top: -0.5em;
+    background-color: rgb(30,30,30);
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.afkchallenge-overlay {
+    display: none;
+    position: fixed;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+    color: #FFAAAA;
+    font-size: 16pt;
+    cursor: default;
+}
+
+.afkchallenge-overlay-popover {
+    display: inline-block;
+    padding: 20px;
+    text-align: center;
+    background-color: rgba(38,38,38,0.9);
+    position: relative;
+    width: 600px;
+    height: 300px;
+    z-index: 9999;
+    top: 124px;
+    border: 5px solid #262626;
+}
+
+.afkchallenge-overlay-message {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.afkchallenge-target {
+    display: inline-block;
+}
+
+.wsdead-overlay-message {
+    position: relative;
+    top: 50%;
+    margin-top: -0.5em;
+    background-color: rgb(30,30,30);
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.signout-overlay {
+    display: none;
+    position: fixed;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    color: #FFFFFF;
+    font-size: 20pt;
+    cursor: default;
+}
+
+.signout-overlay-message {
+    position: relative;
+    top: 50%;
+    margin-top: -0.5em;
+}
+
+.toast-container {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+}
+
+.toast-container .toast {
+    animation-name: kf-toast;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+.toast-container .toast.toast-done {
+    animation-name: kf-toast-done;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+.toast {
+    position: relative;
+    margin: 20px;
+    width: 300px;
+    min-height: 80px;
+    border: 1px solid #262626;
+    border-radius: 5px;
+    cursor: default;
+    min-width: 300px;
+    box-shadow: -1px 5px 6px rgba(0,0,0,0.3);
+}
+
+.toast-header {
+    width: 100%;
+    height: 26px;
+    padding: 0;
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px solid #404040;
+    background-color: #161512;
+}
+
+.toast-info .toast-header {
+    color: rgb(193,133,13);
+}
+
+.toast-error .toast-header {
+    color: rgb(193,133,13);
+}
+
+.toast-icon {
+    display: inline-block
+}
+
+.toast a {
+    color: rgb(195,133,13);
+    text-decoration: none;
+}
+
+.toast a:hover {
+    text-decoration: underline;
+}
+
+.toast-x {
+    color: #BABABA;
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+}
+
+.toast-x:hover {
+    color: white;
+    cursor: pointer;
+}
+
+.toast-content {
+    padding: 20px 0px;
+    min-height: 13px;
+    background-color: #262626;
+}
+
+@keyframes kf-toast {
+    0% {bottom: -75px;}
+    100% {bottom: 0px;}
+}
+
+@keyframes kf-toast-done {
+    0% {right: 0px;}
+    100% {right: -500px;}
+}
+
+.header {
+    position: relative;
+    height: 60px;
+    padding-left: 20px;
+    text-align: left;
+    font-size: 20pt;
+    min-width: 800px;
+}
+
+.leftholder {
+    position: absolute;
+    top: 50%;
+    height: 1em;
+    margin-top: -0.5em;
+}
+
+a {
+    color: #CACACA;
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(195,133,13);
+}
+
+.sitetitle {
+    display: inline-block;
+}
+
+.siteabout {
+    position: relative;
+    top: -4px;
+    font-size: 12pt;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.siterelease {
+    position: relative;
+    top: -4px;
+    font-size: 12pt;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.sitetag {
+    position: relative;
+    top: -5px;
+    display: inline-block;
+    font-size: 9pt;
+    border-radius: 5px;
+    margin-left: 5px;
+    padding: 2px;
+    cursor: default;
+    border: 1px solid rgb(128,255,128);
+    color: rgb(128,255,128);
+}
+
+.rightholder {
+    position: absolute;
+    height: 60px;
+    right: 0px;
+    margin: 0px;
+    padding: 0px;
+    width: 300px;
+}
+
+.header-tabholder {
+    height: 60px;
+    position: absolute;
+    right: 0px;
+    cursor: pointer;
+}
+
+.header-tabholder:hover {
+    color: #EEE;
+}
+
+.header-tabtitle {
+    top: 50%;
+    height: 1em;
+    margin-top: -0.5em;
+    position: relative;
+    font-size: 12pt;
+    padding-right: 10px;
+    padding-left: 10px;
+    min-width:60px;
+    text-align: center;
+}
+
+.header-popup {
+    display: none;
+    color: #EAEAEA;
+    background-color: #3C3C3C;
+    border-radius: 3px 0px 0px 3px;
+    position: absolute;
+    top: 50px;
+    width: 225px;
+    min-height: 200px;
+    box-shadow: -1px 5px 6px rgba(0,0,0,0.3);
+    z-index: 99;
+    text-align: left;
+    right: 0px;
+}
+
+
+.challenge-title-bar.challenge-expand {
+    cursor: pointer;
+}
+
+.chl-earned .challenge-title-bar.challenge-expand {
+    cursor: default;
+}
+
+.challenge-title-bar .icondownarrow.left {
+    position: absolute;
+    left: 5px;
+    top: 7px;
+}
+
+.challenge-title-bar .icondownarrow.right {
+    position: absolute;
+    right: 5px;
+    top: 7px;
+}
+
+.challenge-title-bar .iconuparrow.left {
+    position: absolute;
+    left: 5px;
+    top: 7px;
+}
+
+.challenge-title-bar .iconuparrow.right {
+    position: absolute;
+    right: 5px;
+    top: 7px;
+}
+
+.challenge.chl-earned .challenge-title-bar .icondownarrow {
+    display: none;
+}
+
+.challenge.chl-earned .challenge-title-bar .iconuparrow {
+    display: none;
+}
+
+.challenge-title {
+    display: inline-block;
+    padding: 0px 8px;
+}
+
+.challenge-text {
+    color: #909090;
+    line-height: 2.1em;
+}
+
+.challenge-progress {
+    height: 2px;
+    width: 0%;
+}
+
+.league-1 .challenge-progress {
+    background-color: rgb(0,200,255);
+}
+
+.league-2 .challenge-progress {
+    background-color: rgb(255,128,128);
+}
+
+.challenge-progress-text {
+    text-align: center;
+    font-size: 10pt;
+}
+
+.league-1 .challenge-progress-text {
+    color: rgb(0,200,255);
+}
+
+.league-2 .challenge-progress-text {
+    color: rgb(255,128,128);
+}
+
+.challenge-checkboxes {
+    display: none;
+    text-align: left;
+    padding: 10px;
+}
+
+.expanded .challenge-checkboxes {
+    display: block;
+}
+
+.challenge-checkboxes-column {
+    display: inline-block;
+    width: 115px;
+    vertical-align: top;
+}
+
+.challenge-checkbox-value {
+    display: inline-block;
+    padding-left: 5px;
+}
+
+.chl-box-square {
+    display: inline-block;
+    border-radius: 1px;
+    height: 8px;
+    width: 8px;
+}
+
+.league-1 .chl-box-square {
+    border: 1px solid rgb(0,200,255);
+}
+
+.league-2 .chl-box-square {
+    border: 1px solid rgb(255,128,128);
+}
+
+.league-1 .chl-box-square.checked {
+    background-color: rgb(0,200,255);
+}
+
+.league-2 .chl-box-square.checked {
+    background-color: rgb(255,128,128);
+}
+
+.achievement-header-holder {
+    display: none;
+    right: 100px;
+    width: 100px;
+}
+
+.daily-holder {
+    display: none;
+    right: 280px;
+    width: 80px;
+}
+
+.daily-holder .icondaily {
+    position: relative;
+    font-size: 10pt;
+    top: 14px;
+    left: 24px;
+}
+
+.daily-value {
+    display: inline-block;
+    font-size: 11pt;
+    position: relative;
+    top: 11px;
+    left: 20px;
+    padding: 3px;
+    min-width: unset;
+}
+
+.daily-value-inner {
+    display: inline-block;
+    color: rgb(255,255,0);
+}
+
+.daily-popup {
+    width: 325px;
+    right: 150px;
+    min-height: 100px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.daily-loader {
+    position: absolute;
+    left: 150px;
+    top: 33px;
+}
+
+.daily-headerinfo {
+    font-size: 11pt;
+    padding: 10px;
+    color: #909090;
+    text-align: center;
+}
+
+.daily-headerinfo a {
+    color: rgb(193,133,13);
+    text-decoration: underline;
+}
+
+.daily-headerinfo a:hover {
+    color: white;
+}
+
+.daily-headerinfo .leaderboard-help {
+    vertical-align: top;
+}
+
+.daily-reroll {
+    display: inline-block;
+    color: rgb(255,255,0);
+}
+
+.daily-0 {
+    color: #707070;
+}
+
+.header-daily {
+    height: 229px;
+    overflow: hidden;
+}
+
+.daily {
+    display: inline-block;
+    background-color: #262626;
+    position: relative;
+    border: 3px solid #262626;
+    border-radius: 3px;
+    width: 300px;
+    height: 50px;
+    vertical-align: top;
+    margin: 10px;
+    cursor: default;
+    font-size: 11pt;
+    text-align: center;
+}
+
+.daily.kf-reroll {
+    animation-name: kf-fadeOut;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+.daily.kf-reroll-new {
+    animation-name: kf-fadeIn;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+.daily .icon.icondaily {
+    vertical-align: sub;
+}
+
+.daily-title-bar {
+    position: relative;
+    border-bottom: 1px solid #404040;
+    line-height: 2.1em;
+    color: rgb(255,255,0);
+    background-color: #161512;
+}
+
+.daily-title {
+    display: inline-block;
+    padding: 0px 8px;
+}
+
+.header .reroll-button {
+    position: absolute;
+    right: 4px;
+    top: 2px;
+    width: 25px;
+    height: 20px;
+    border: 3px outset rgb(135,73,0);
+    border-radius: 3px;
+    background-color: rgb(195,133,13);
+    color: white;
+    padding:0px;
+    margin-top:3px;
+}
+
+.header .reroll-button:disabled {
+    opacity: 1;
+    background-color: rgb(120,120,120);
+}
+
+.daily-progress {
+    background-color: rgb(255,255,0);
+    height: 2px;
+    width: 0%;
+}
+
+.daily-progress-text {
+    text-align: center;
+    font-size: 10pt;
+    color: rgb(255,255,0);
+}
+
+.daily-topup {
+    position: absolute;
+    left: 2px;
+    bottom: 2px;
+    color: #909090;
+    font-size: 9pt;
+    font-style: italic;
+}
+
+.daily-chips {
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    color: #909090;
+    font-size: 9pt;
+    font-style: italic;
+}
+
+.achievement-header-holder .icon {
+    top: 18px;
+}
+
+.achievement-header-value {
+    display: inline-block;
+    font-size: 11pt;
+    position: relative;
+    top: 11px;
+    right: 5px;
+}
+
+.achievement-header-value:hover {
+    color: white;
+    text-decoration: none;
+}
+
+
+.signup-holder {
+    display: none;
+    right: 200px;
+}
+
+.signin-holder {
+    display: none;
+    right: 120px;
+}
+
+.signup-popup {
+    padding-top: 15px;
+    min-height: 250px;
+    left: 20px;
+    right: unset;
+}
+
+.signin-popup {
+    padding-top: 15px;
+    min-height: 154px;
+}
+
+.signinup-error {
+    display: none;
+    padding-left:10px;
+    padding-top:10px;
+    padding-bottom:20px;
+    font-size: 11px;
+    color: #FFAAAA;
+}
+
+.signinup-label {
+    font-style: italic;
+    color: #909090;
+    font-size: 9pt;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+.header input {
+    font-size: 10pt;
+    margin-left: 10px;
+    position: relative;
+    top: -5px;
+    background-color: #242424;
+    border-color: black;
+    color: lightgray;
+    width: 200px;
+}
+
+.header input:disabled {
+    background-color: rgb(120,120,120);
+    border-color: rgb(150,150,150);
+}
+
+.header textarea {
+    background-color: #242424;
+    width: 332px;
+    border: 2px solid black;
+    resize: none;
+    margin-top: 3px;
+    margin-left: 10px;
+    height: 260px;
+    color: lightgray;
+}
+
+.header textarea:disabled {
+    background-color: rgb(120,120,120);
+    border-color: rgb(150,150,150);
+}
+
+/* Needed so that chrome autofill doesn't change our text box style */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px #242424 inset !important;
+}
+input:-webkit-autofill {
+    -webkit-text-fill-color: lightgray !important;
+}
+
+.header button {
+    background-color: rgb(195,133,13);
+    color: white;
+    font-size: 10pt;
+    width: 80px;
+    margin-top:15px;
+    border: 3px outset rgb(135,73,0);
+    border-radius: 3px;
+}
+
+.header button:active {
+    border-style: inset;
+}
+
+.header button:disabled {
+    opacity: 0.5;
+    background-color: rgb(120,120,120);
+    border-color: rgb(150,150,150);
+}
+
+.signin-loader {
+    display: none;
+    position: relative;
+    left: 90px;
+    padding: 10px;
+}
+
+.signup-loader {
+    display: none;
+    position: absolute;
+    left: 92px;
+    top: 225px;
+}
+
+.signin-button {
+    display: inline-block;
+    position: relative;
+    left: 8px;
+}
+
+.header .signin-resetpw-button {
+    display: inline-block;
+    position: relative;
+    left: 10px;
+    width: 120px;
+}
+
+.signup-button {
+    display: block;
+    position: relative;
+    left: 134px;
+}
+
+.signinup-success {
+    display: none;
+    padding-left:10px;
+    padding-top:10px;
+    padding-bottom:20px;
+    font-size: 9pt;
+    color: #AAFFAA;
+}
+
+.identity {
+    max-width: 100px;
+    min-width: 100px;
+    text-align: center;
+}
+
+.identity-id {
+    display: none;
+}
+
+.identity-name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.identity-links {
+    font-size: 12pt;
+    border-bottom: 1px solid #6A6A6A;
+}
+
+.identity-link {
+    display: none;
+    margin: 2px 0px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.achievement-link {
+    display: block;
+}
+
+.identity-link .icontrophy {
+    top: 6px;
+}
+
+.identity-link .iconseat {
+    left: -2px;
+}
+
+.identity-link:hover {
+    color: white;
+    background-color: rgb(195,133,13);
+}
+
+.identity-loader {
+    position: absolute;
+    top: 14px;
+    right: 54px;
+}
+
+.identity-topup-amount {
+    display: inline-block;
+}
+
+.identity-balance {
+    font-size: 12pt;
+}
+
+.identity-balance a {
+    color: rgb(195,133,13);
+    text-decoration: underline;
+}
+
+.identity-balance a.topup-link {
+    text-decoration: none;
+    color: #CACACA;
+}
+
+.identity-balance a:hover {
+    color: white;
+}
+
+.identity-balance-loader {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 16px;
+    bottom: 0;
+    left: -30px;
+    right: 0;
+    margin: auto;
+}
+
+.identity-popup table {
+    margin-left: 27px;
+    margin-right: 10px;
+    cursor: default;
+}
+
+.identity-popup tr {
+    font-size: 11pt;
+}
+
+.identity-popup td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.identity-popup .available {
+    padding-left: 10px;
+    font-size: 9pt;
+}
+
+.identity-popup .tablename {
+    padding-left: 20px;
+    font-size: 9pt;
+    max-width: 105px;
+}
+
+.leaderboard {
+    cursor: default;
+    display: inline-block;
+    border: 6px solid #262626;
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+}
+
+.leaderboard-title {
+    display: inline-block;
+    font-size: 16pt;
+    padding: 10px;
+}
+
+.leaderboard-help {
+    display: inline-block;
+    font-size: 8pt;
+}
+
+.leaderboard table {
+    border-collapse:collapse;
+    background-color: #202020;
+    text-align: center;
+    padding: 5px;
+    width: 100%;
+    border: 1px solid #262626;
+}
+
+.leaderboard th {
+    padding:5px;
+    font-weight: unset;
+    color: #696969;
+}
+
+.leaderboard thead tr {
+    border-bottom: 1px solid #262626;
+}
+
+.leaderboard td {
+    padding:5px;
+}
+
+.plaque {
+    position: relative;
+    border: 1px solid #101010;
+    background-color: #262626;
+    border-radius: 10px;
+    width: 120px;
+    height: 37px;
+    color: #BABABA;
+    margin: 19px 19px 8px 19px;
+    z-index: 100;
+}
+
+.plaque .border {
+    top: -12px;
+    left: -12px;
+}
+
+.plaque .name {
+    overflow: hidden;
+}
+
+.icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.iconbag        { background: url(/s/img/icons.png?v1); }
+.iconpriviledge { background: url(/s/img/icons.png?v1) -16px 0px; }
+.iconbook       { background: url(/s/img/icons.png?v1) -32px 0px; }
+.iconaction     { background: url(/s/img/icons.png?v1) -48px 0px; }
+.iconkey        { background: url(/s/img/icons.png?v1) -64px 0px; }
+.iconspacer {
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    margin: 2px;
+    vertical-align: bottom;
+}
+
+.token {
+    background-image: url(/s/img/tokens.png?v1);
+    width: 50px;
+    height: 50px;
+}
+
+.tokenflipped {
+    background-size: 1000% 100%;
+    background-position: -450px;
+}
+.tokenstartflipped {
+    background-size: 1000% 100%;
+    background-position: -399px;
+}
+.tokenstartvirtual {
+    background-size: 1000% 100%;
+    background-position: -344px;
+}
+.tokenstartswap {
+    background-size: 1000% 100%;
+    background-position: -293px;
+}
+.tokenvirtual {
+    background-size: 1000% 100%;
+    background-position: -241px;
+}
+.tokenswap {
+    background-size: 1050% 105%;
+    background-position: -203px;
+}
+.tokenstartremove {
+    background-size: 970% 97%;
+    background-position: -137px 0px;
+}
+.tokenstartremove {
+    background-size: 1000% 100%;
+    background-position: -89px 0px;
+}
+.tokenlevelup {
+    background-size: 1700% 170%;
+    background-position: -97px 0px;
+}
+.token4Actions {
+    background-size: 1700% 170%;
+    background-position: -48px 0px;
+}
+.token3Actions {
+    background-size: 1800% 180%;
+    background-position: 0px 0px;
+}
+
+
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+}
+.loader {
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-right: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-left: 1.1em solid #ffffff;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+}
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.footer {
+    width: 1px;
+    height: 100px;
+}

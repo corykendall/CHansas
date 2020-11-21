@@ -1,0 +1,41 @@
+.release {
+    display: inline-block;
+    text-align: center;
+    padding-top: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: default;
+    width: 100%;
+    height: 400px;
+}
+
+.releasecontainer {
+    display: inline-block;
+    width: 800px;
+    text-align: center;
+
+}
+
+.releasedate {
+    text-align: left;
+    font-weight: bold;
+    color: #DADADA;
+}
+
+.releasecontent {
+    text-align: left;
+    font-weight: normal;
+    color: #BABABA;
+}
+
+.release a {
+    text-decoration: underline;
+    color: rgb(193,133,13);
+}
+
+.release a:hover {
+    color: white;
+}
+
+
+

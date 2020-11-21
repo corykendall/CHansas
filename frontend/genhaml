@@ -1,0 +1,8 @@
+#!/bin/bash
+rm -Rf html/*
+for file in src/*
+do
+  echo "$file..."
+  filename=$(basename -- "$file")
+  haml "$file" | sed "s/VERSION_STRING/$(date +'%s')/g" > "html/${filename%.haml}.html"
+done

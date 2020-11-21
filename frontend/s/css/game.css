@@ -1,0 +1,1188 @@
+.game {
+    position: relative;
+    width: 1700px;
+    display: inline-block;
+}
+
+.locationfinderhelp {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: rgb(255,0,0);
+    z-index: 300;
+}
+
+.locationfinderhelp-disc {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-radius: 11px;
+    left: 20px;
+    background-color: rgb(255,0,0);
+    z-index: 300;
+}
+
+.board {
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    width: 1150px;
+    height: 800px;
+    background: url(/s/img/hansa45base.png);
+    background-size: cover;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.board-creating {
+    position: absolute;
+    font-size: 40pt;
+    top: 0px;
+    left: 0px;
+    width: 1150px;
+    height: 425px;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 100;
+    padding-top: 375px;
+    color: white;
+}
+
+.board-creating button {
+    height: 100px;
+    width: 300px;
+}
+
+.playerturn {
+    position: absolute;
+    top: 45px;
+    left: -50px;
+    width: 45px;
+    height: 60px;
+    border-radius: 100px;
+}
+
+.playerturn.currentturn {
+    top: -2px;
+    border-radius: 5px;
+    height: 154px;
+    padding-top: 5px;
+}
+
+.playerturn.bumpedturn {
+    top: -2px;
+    border-radius: 5px;
+    height: 154px;
+    padding-top: 5px;
+}
+
+.playerturn-red {
+    background-color: rgb(40,0,0);
+}
+
+.playerturn-blue {
+    background-color: rgb(0,0,40);
+}
+
+.playerturn-purple {
+    background-color: rgb(40,0,40);
+}
+
+.playerturn-green {
+    background-color: rgb(0,40,0);
+}
+
+.playerturn-yellow {
+    background-color: rgb(40,40,0);
+}
+
+.playerturn-red.currentturn {
+    background-color: rgb(128,0,0);
+}
+
+.playerturn-blue.currentturn {
+    background-color: rgb(0,0,128);
+}
+
+.playerturn-purple.currentturn {
+    background-color: rgb(128,0,128);
+}
+
+.playerturn-green.currentturn {
+    background-color: rgb(0,128,0);
+}
+
+.playerturn-yellow.currentturn {
+    background-color: rgb(128,128,0);
+}
+
+.undo-button {
+    position: absolute;
+    left: -80px;
+    top: -2px;
+    width: 73px;
+    height: 78px;
+}
+
+.endturn-button {
+    position: absolute;
+    left: -80px;
+    top: 78px;
+    width: 73px;
+    height: 78px;
+}
+
+
+.player-elapsed {
+    position: absolute;
+    color: rgb(120,120,120);
+    top: 22px;
+    left: 4px;
+}
+
+.currentturn .player-elapsed {
+    top: 134px;
+}
+
+.bumpedturn .player-elapsed {
+    top: 134px;
+}
+
+.player-actions {
+    display: inline-block;
+}
+
+.player-turnstate {
+    position: absolute;
+    width: 45px;
+    top: 45px;
+}
+
+.player-turnstatehelp {
+    position: absolute;
+    width: 45px;
+    top: 63px;
+}
+
+.player-turntime {
+    position: absolute;
+    top: 114px;
+    left: 4px;
+}
+
+.playerboards {
+    position: absolute;
+    left: 1300px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.playerboard {
+    position: absolute;
+    border: 2px solid black;
+    height: 150px;
+    width: 400px;
+    margin-bottom: 7px;
+    border-radius: 5px;
+    color: rgb(200,200,200);
+}
+
+.playerboard-0 {
+    top: 0px;
+}
+
+.playerboard-1 {
+    top: 160px;
+}
+
+.playerboard-2 {
+    top: 320px;
+}
+
+.playerboard-3 {
+    top: 480px;
+}
+
+.playerboard-4 {
+    top: 640px;
+}
+
+.playerboard-red {
+    border-color: rgb(128,0,0);
+    background-color: rgb(40,0,0);
+}
+
+.playerboard-blue {
+    border-color: rgb(0,0,128);
+    background-color: rgb(0,0,40);
+}
+
+.playerboard-purple {
+    border-color: rgb(128,0,128);
+    background-color: rgb(40,0,40);
+}
+
+.playerboard-green {
+    border-color: rgb(0,128,0);
+    background-color: rgb(0,40,0);
+}
+
+.playerboard-yellow {
+    border-color: rgb(128,128,0);
+    background-color: rgb(40,40,0);
+}
+
+.playerboard-red .trackspot {
+    border-color: rgb(128,0,0);
+}
+
+.playerboard-blue .trackspot {
+    border-color: rgb(0,0,128);
+}
+
+.playerboard-purple .trackspot {
+    border-color: rgb(128,0,128);
+}
+
+.playerboard-green .trackspot {
+    border-color: rgb(0,128,0);
+}
+
+.playerboard-yellow .trackspot {
+    border-color: rgb(128,128,0);
+}
+
+.playerboard-creating {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 100;
+}
+
+.playerboard-sitdown {
+    position: absolute;
+    top: 43px;
+    left: 100px;
+    width: 200px;
+    height: 65px;
+}
+
+.playerboard-addbot {
+    position: absolute;
+    top: 121px;
+    left: 300px;
+    width: 97px;
+    height: 28px;
+}
+
+.playerboard-standup {
+    position: absolute;
+    top: -1px;
+    left: -133px;
+    width: 75px;
+    height: 154px;
+}
+
+.trackspot {
+    border: solid 1px black;
+    border-radius: 2px;
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 3px;
+}
+
+.disc-trackspot {
+    border-radius: 100px;
+    width: 24px;
+    height: 20px;
+    padding-top: 4px;
+}
+
+.white-priviledge {
+    background-color: rgb(200,200,200);
+}
+
+.orange-priviledge {
+    background-color: rgb(195,139,108);
+}
+
+.purple-priviledge {
+    background-color: rgb(151,75,150);
+}
+
+.black-priviledge {
+    background-color: rgb(51,51,62);
+}
+
+.action-track {
+    position: absolute;
+    top: 1px;
+    left: 5px;
+}
+
+.key-track {
+    position: absolute;
+    top: 23px;
+    left: 5px;
+}
+
+.priviledge-track {
+    position: absolute;
+    top: 45px;
+    left: 5px;
+}
+
+.bag-track {
+    position: absolute;
+    top: 67px;
+    left: 5px;
+}
+
+.book-track {
+    position: absolute;
+    top: 95px;
+    left: 5px;
+}
+
+.player-identity {
+    position: absolute;
+    top: 130px;
+    left: 0px;
+    width: 175px;
+    height: 20px;
+    background-color: rgb(70,70,70);
+}
+
+.stock-track {
+    position: absolute;
+    top: 5px;
+    left: 175px;
+}
+
+.stock-track .disc-trackspot {
+    position: relative;
+    top: -3px;
+}
+
+.stock-cubecount {
+    position: absolute;
+    top: 20px;
+    left: 50px;
+}
+
+.stock-disccount {
+    position: absolute;
+    top: 25px;
+    left: 76px;
+}
+
+.player-usedtokens {
+    position: absolute;
+    left: 348px;
+    top: 1px;
+    width: 50px;
+    height: 50px;
+    background-image: url(/s/img/tokens.png?v1);
+    background-size: 1000% 100%;
+    background-position: -450px;
+}
+
+.player-supply {
+    position: absolute;
+    top: 50px;
+    left: 175px;
+    width: 224px;
+    height: 99px;
+    border-top: 1px solid rgb(128,128,128);
+    border-left: 1px solid rgb(128,128,128);
+    background-color: rgb(60,60,60);
+}
+
+.player-score {
+    position: absolute;
+    top: 9px;
+    left: 300px;
+    font-size: 30px;
+    color: white;
+}
+
+@keyframes kf-score-bounce {
+    0% {top: 3px;}
+    20% {top: 28px;}
+    40% {top: 3px;}
+    60% {top: 28px;}
+    80% {top: 3px;}
+    100% {top: 14px;}
+}
+
+.score-animation {
+    position: absolute;
+    animation-name: kf-score-bounce;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    top: 9px;
+    left: 270px;
+    font-size: 15px;
+    color: white;
+}
+
+@keyframes kf-finalscore-rise {
+    0% {top: 81px;}
+    100% {top: 7px;}
+}
+
+.finalscore-animation {
+    position: absolute;
+    animation-name: kf-finalscore-rise;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+    top: 81px;
+    left: 124px;
+    font-size: 30px;
+    color: white;
+}
+
+.player-endgame-scoring {
+    position: absolute;
+    background-color: rgb(70,70,70);
+    width: 224px;
+    height: 99px;
+    left: 1478px;
+    z-index: 110;
+}
+
+.pes-0 {
+    top: 53px;
+}
+.pes-1 {
+    top: 213px;
+}
+.pes-2 {
+    top: 373px;
+}
+.pes-3 {
+    top: 533px;
+}
+.pes-4 {
+    top: 693px;
+}
+.pes-yellow {
+    color: rgb(255,255,0);
+}
+.pes-green {
+    color: rgb(0,255,0);
+}
+.pes-blue {
+    color: rgb(128,128,255);
+}
+.pes-purple {
+    color: rgb(255,0,255);
+}
+.pes-red {
+    color: rgb(255,0,0);
+}
+.pes-game {
+    position: absolute;
+    left: 34px;
+    top: 2px;
+}
+.pes-board {
+    position: absolute;
+    left: 35px;
+    top: 18px;
+}
+.pes-coellen {
+    position: absolute;
+    left: 24px;
+    top: 34px;
+}
+.pes-control {
+    position: absolute;
+    left: 27px;
+    top: 50px;
+}
+.pes-network {
+    position: absolute;
+    left: 20px;
+    top: 66px;
+}
+.pes-total {
+    position: absolute;
+    left: 42px;
+    top: 82px;
+}
+.pes-1-value {
+    position: absolute;
+    left: 90px;
+    top: 2px;
+}
+.pes-2-value {
+    position: absolute;
+    left: 90px;
+    top: 18px;
+}
+.pes-3-value {
+    position: absolute;
+    left: 90px;
+    top: 34px;
+}
+.pes-4-value {
+    position: absolute;
+    left: 90px;
+    top: 50px;
+}
+.pes-5-value {
+    position: absolute;
+    left: 90px;
+    top: 66px;
+}
+.pes-6-value {
+    position: absolute;
+    left: 90px;
+    top: 82px;
+}
+.pes-place {
+    position: absolute;
+    left: 134px;
+    top: 26px;
+    font-size: 40px
+}
+
+.location {
+    height: 22px;
+    width: 22px;
+    position: absolute;
+    z-index: 90;
+    /*background-color: cyan;*/
+}
+
+.piece-cube {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 16px;
+    height: 16px;
+    cursor: grab;
+}
+
+.piece-disc {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border-radius: 11px;
+    width: 22px;
+    height: 22px;
+    cursor: grab;
+}
+
+.piece-none {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 0px;
+    height: 0px;
+}
+
+.piece-disc.grabbing {
+    cursor: grabbing;
+}
+.piece-cube.grabbing {
+    cursor: grabbing;
+}
+
+.piece-red {
+    background-color: rgb(255,0,0);
+}
+.piece-green {
+    background-color: rgb(0,255,0);
+}
+.piece-blue {
+    background-color: rgb(0,0,255);
+}
+.piece-purple {
+    background-color: rgb(255,0,255);
+}
+.piece-yellow {
+    background-color: rgb(255,255,0);
+}
+
+.piece.discshift {
+    top: -3px;
+    left: -3px;
+}
+
+.footer {
+    width: 0px;
+    height: 100px;
+}
+
+/* Every route location as an absolute offset from the board's upper left */
+.ls-1-0-0-0 {top: 205px; left: 160px;}
+.ls-1-0-1-0 {top: 194px; left: 213px;}
+.ls-1-0-2-0 {top: 163px; left: 269px;}
+.ls-1-1-0-0 {top: 155px; left: 411px;}
+.ls-1-1-1-0 {top: 123px; left: 499px;}
+.ls-1-1-2-0 {top: 111px; left: 547px;}
+.ls-1-2-0-0 {top: 192px; left: 343px;}
+.ls-1-2-1-0 {top: 226px; left: 306px;}
+.ls-1-2-2-0 {top: 266px; left: 275px;}
+.ls-1-2-3-0 {top: 299px; left: 312px;}
+.ls-1-3-0-0 {top: 136px; left: 649px;}
+.ls-1-3-1-0 {top: 124px; left: 702px;}
+.ls-1-3-2-0 {top: 93px; left: 746px;}
+.ls-1-4-0-0 {top: 104px; left: 905px;}
+.ls-1-4-1-0 {top: 139px; left: 947px;}
+.ls-1-4-2-0 {top: 131px; left: 1003px;}
+.ls-1-5-0-0 {top: 127px; left: 795px;}
+.ls-1-5-1-0 {top: 169px; left: 755px;}
+.ls-1-5-2-0 {top: 193px; left: 699px;}
+.ls-1-5-3-0 {top: 201px; left: 634px;}
+.ls-1-6-0-0 {top: 121px; left: 847px;}
+.ls-1-6-1-0 {top: 156px; left: 878px;}
+.ls-1-6-2-0 {top: 187px; left: 909px;}
+.ls-1-6-3-0 {top: 223px; left: 934px;}
+.ls-1-7-0-0 {top: 318px; left: 83px;}
+.ls-1-7-1-0 {top: 346px; left: 105px;}
+.ls-1-7-2-0 {top: 382px; left: 128px;}
+.ls-1-8-0-0 {top: 319px; left: 162px;}
+.ls-1-8-1-0 {top: 330px; left: 233px;}
+.ls-1-9-0-0 {top: 230px; left: 479px;}
+.ls-1-9-1-0 {top: 266px; left: 425px;}
+.ls-1-9-2-0 {top: 310px; left: 380px;}
+.ls-1-10-0-0 {top: 250px; left: 537px;}
+.ls-1-10-1-0 {top: 300px; left: 493px;}
+.ls-1-10-2-0 {top: 356px; left: 468px;}
+.ls-1-11-0-0 {top: 239px; left: 586px;}
+.ls-1-11-1-0 {top: 268px; left: 617px;}
+.ls-1-11-2-0 {top: 299px; left: 643px;}
+.ls-1-12-0-0 {top: 280px; left: 824px;}
+.ls-1-12-1-0 {top: 307px; left: 791px;}
+.ls-1-12-2-0 {top: 331px; left: 748px;}
+.ls-1-13-0-0 {top: 287px; left: 909px;}
+.ls-1-13-1-0 {top: 278px; left: 959px;}
+.ls-1-13-2-0 {top: 256px; left: 1005px;}
+.ls-1-14-0-0 {top: 254px; left: 1075px;}
+.ls-1-14-1-0 {top: 307px; left: 1069px;}
+.ls-1-14-2-0 {top: 352px; left: 1056px;}
+.ls-1-15-0-0 {top: 437px; left: 198px;}
+.ls-1-15-1-0 {top: 449px; left: 237px;}
+.ls-1-15-2-0 {top: 468px; left: 268px;}
+.ls-1-16-0-0 {top: 476px; left: 109px;}
+.ls-1-16-1-0 {top: 501px; left: 149px;}
+.ls-1-16-2-0 {top: 547px; left: 163px;}
+.ls-1-17-0-0 {top: 476px; left: 388px;}
+.ls-1-17-1-0 {top: 451px; left: 422px;}
+.ls-1-17-2-0 {top: 450px; left: 461px;}
+.ls-1-18-0-0 {top: 390px; left: 601px;}
+.ls-1-18-1-0 {top: 375px; left: 637px;}
+.ls-1-18-2-0 {top: 372px; left: 682px;}
+.ls-1-19-0-0 {top: 437px; left: 614px;}
+.ls-1-19-1-0 {top: 432px; left: 665px;}
+.ls-1-19-2-0 {top: 425px; left: 711px;}
+.ls-1-19-3-0 {top: 409px; left: 758px;}
+.ls-1-20-0-0 {top: 460px; left: 543px;}
+.ls-1-20-1-0 {top: 498px; left: 531px;}
+.ls-1-20-2-0 {top: 532px; left: 520px;}
+.ls-1-21-0-0 {top: 547px; left: 673px;}
+.ls-1-21-1-0 {top: 571px; left: 638px;}
+.ls-1-21-2-0 {top: 590px; left: 589px;}
+.ls-1-22-0-0 {top: 500px; left: 767px;}
+.ls-1-22-1-0 {top: 510px; left: 806px;}
+.ls-1-22-2-0 {top: 523px; left: 848px;}
+.ls-1-23-0-0 {top: 396px; left: 862px;}
+.ls-1-23-1-0 {top: 424px; left: 897px;}
+.ls-1-23-2-0 {top: 447px; left: 937px;}
+.ls-1-23-3-0 {top: 468px; left: 974px;}
+.ls-1-24-0-0 {top: 463px; left: 1057px;}
+.ls-1-24-1-0 {top: 505px; left: 1054px;}
+.ls-1-24-2-0 {top: 551px; left: 1077px;}
+.ls-1-25-0-0 {top: 593px; left: 183px;}
+.ls-1-25-1-0 {top: 592px; left: 224px;}
+.ls-1-26-0-0 {top: 595px; left: 373px;}
+.ls-1-26-1-0 {top: 606px; left: 421px;}
+.ls-1-26-2-0 {top: 582px; left: 468px;}
+.ls-1-27-0-0 {top: 648px; left: 532px;}
+.ls-1-27-1-0 {top: 674px; left: 500px;}
+.ls-1-27-2-0 {top: 701px; left: 462px;}
+.ls-1-28-0-0 {top: 566px; left: 945px;}
+.ls-1-28-1-0 {top: 589px; left: 986px;}
+.ls-1-29-0-0 {top: 575px; left: 841px;}
+.ls-1-29-1-0 {top: 591px; left: 796px;}
+.ls-1-29-2-0 {top: 637px; left: 807px;}
+.ls-1-29-3-0 {top: 656px; left: 847px;}
+.ls-1-30-0-0 {top: 739px; left: 148px;}
+.ls-1-30-1-0 {top: 739px; left: 208px;}
+.ls-1-30-2-0 {top: 738px; left: 272px;}
+.ls-1-30-3-0 {top: 739px; left: 342px;}
+.ls-1-31-0-0 {top: 744px; left: 496px;}
+.ls-1-31-1-0 {top: 743px; left: 554px;}
+.ls-1-31-2-0 {top: 743px; left: 611px;}
+.ls-1-32-0-0 {top: 738px; left: 737px;}
+.ls-1-32-1-0 {top: 711px; left: 798px;}
+.ls-1-32-2-0 {top: 700px; left: 870px;}
+.ls-1-33-0-0 {top: 689px; left: 927px;}
+.ls-1-33-1-0 {top: 719px; left: 948px;}
+.ls-1-33-2-0 {top: 739px; left: 981px;}
+.ls-1-33-3-0 {top: 741px; left: 1022px;}
+
+.ls-1-0-0-1 {top: 175px; left: 160px;}
+.ls-1-0-1-1 {top: 164px; left: 213px;}
+.ls-1-0-2-1 {top: 133px; left: 269px;}
+.ls-1-1-0-1 {top: 125px; left: 411px;}
+.ls-1-1-1-1 {top: 93px; left: 499px;}
+.ls-1-1-2-1 {top: 81px; left: 547px;}
+.ls-1-2-0-1 {top: 192px; left: 313px;}
+.ls-1-2-1-1 {top: 226px; left: 276px;}
+.ls-1-2-2-1 {top: 266px; left: 245px;}
+.ls-1-2-3-1 {top: 299px; left: 282px;}
+.ls-1-3-0-1 {top: 106px; left: 649px;}
+.ls-1-3-1-1 {top: 94px; left: 702px;}
+.ls-1-3-2-1 {top: 63px; left: 746px;}
+.ls-1-4-0-1 {top: 74px; left: 905px;}
+.ls-1-4-1-1 {top: 109px; left: 947px;}
+.ls-1-4-2-1 {top: 131px; left: 1033px;}
+.ls-1-5-0-1 {top: 127px; left: 765px;}
+.ls-1-5-1-1 {top: 169px; left: 725px;}
+.ls-1-5-2-1 {top: 193px; left: 669px;}
+.ls-1-5-3-1 {top: 201px; left: 604px;}
+.ls-1-6-0-1 {top: 121px; left: 822px;}
+.ls-1-6-1-1 {top: 156px; left: 848px;}
+.ls-1-6-2-1 {top: 187px; left: 879px;}
+.ls-1-6-3-1 {top: 223px; left: 904px;}
+.ls-1-7-0-1 {top: 318px; left: 53px;}
+.ls-1-7-1-1 {top: 346px; left: 75px;}
+.ls-1-7-2-1 {top: 382px; left: 98px;}
+.ls-1-8-0-1 {top: 319px; left: 132px;}
+.ls-1-8-1-1 {top: 330px; left: 203px;}
+.ls-1-9-0-1 {top: 230px; left: 449px;}
+.ls-1-9-1-1 {top: 266px; left: 395px;}
+.ls-1-9-2-1 {top: 310px; left: 350px;}
+.ls-1-10-0-1 {top: 250px; left: 507px;}
+.ls-1-10-1-1 {top: 300px; left: 463px;}
+.ls-1-10-2-1 {top: 356px; left: 438px;}
+.ls-1-11-0-1 {top: 239px; left: 561px;}
+.ls-1-11-1-1 {top: 268px; left: 587px;}
+.ls-1-11-2-1 {top: 299px; left: 613px;}
+.ls-1-12-0-1 {top: 280px; left: 794px;}
+.ls-1-12-1-1 {top: 307px; left: 761px;}
+.ls-1-12-2-1 {top: 331px; left: 723px;}
+.ls-1-13-0-1 {top: 287px; left: 879px;}
+.ls-1-13-1-1 {top: 248px; left: 959px;}
+.ls-1-13-2-1 {top: 286px; left: 1005px;}
+.ls-1-14-0-1 {top: 254px; left: 1045px;}
+.ls-1-14-1-1 {top: 307px; left: 1039px;}
+.ls-1-14-2-1 {top: 352px; left: 1026px;}
+.ls-1-15-0-1 {top: 407px; left: 198px;}
+.ls-1-15-1-1 {top: 419px; left: 237px;}
+.ls-1-15-2-1 {top: 438px; left: 268px;}
+.ls-1-16-0-1 {top: 476px; left: 79px;}
+.ls-1-16-1-1 {top: 501px; left: 119px;}
+.ls-1-16-2-1 {top: 547px; left: 133px;}
+.ls-1-17-0-1 {top: 446px; left: 388px;}
+.ls-1-17-1-1 {top: 421px; left: 422px;}
+.ls-1-17-2-1 {top: 480px; left: 461px;}
+.ls-1-18-0-1 {top: 360px; left: 601px;}
+.ls-1-18-1-1 {top: 345px; left: 637px;}
+.ls-1-18-2-1 {top: 372px; left: 712px;}
+.ls-1-19-0-1 {top: 407px; left: 614px;}
+.ls-1-19-1-1 {top: 402px; left: 665px;}
+.ls-1-19-2-1 {top: 450px; left: 711px;}
+.ls-1-19-3-1 {top: 439px; left: 758px;}
+.ls-1-20-0-1 {top: 460px; left: 513px;}
+.ls-1-20-1-1 {top: 498px; left: 501px;}
+.ls-1-20-2-1 {top: 532px; left: 490px;}
+.ls-1-21-0-1 {top: 517px; left: 673px;}
+.ls-1-21-1-1 {top: 541px; left: 638px;}
+.ls-1-21-2-1 {top: 560px; left: 589px;}
+.ls-1-22-0-1 {top: 470px; left: 767px;}
+.ls-1-22-1-1 {top: 480px; left: 806px;}
+.ls-1-22-2-1 {top: 493px; left: 848px;}
+.ls-1-23-0-1 {top: 396px; left: 837px;}
+.ls-1-23-1-1 {top: 424px; left: 867px;}
+.ls-1-23-2-1 {top: 447px; left: 907px;}
+.ls-1-23-3-1 {top: 468px; left: 944px;}
+.ls-1-24-0-1 {top: 463px; left: 1027px;}
+.ls-1-24-1-1 {top: 505px; left: 1024px;}
+.ls-1-24-2-1 {top: 551px; left: 1047px;}
+.ls-1-25-0-1 {top: 568px; left: 183px;}
+.ls-1-25-1-1 {top: 562px; left: 224px;}
+.ls-1-26-0-1 {top: 565px; left: 373px;}
+.ls-1-26-1-1 {top: 576px; left: 421px;}
+.ls-1-26-2-1 {top: 552px; left: 468px;}
+.ls-1-27-0-1 {top: 648px; left: 502px;}
+.ls-1-27-1-1 {top: 674px; left: 470px;}
+.ls-1-27-2-1 {top: 701px; left: 432px;}
+.ls-1-28-0-1 {top: 536px; left: 945px;}
+.ls-1-28-1-1 {top: 559px; left: 986px;}
+.ls-1-29-0-1 {top: 550px; left: 841px;}
+.ls-1-29-1-1 {top: 561px; left: 796px;}
+.ls-1-29-2-1 {top: 667px; left: 807px;}
+.ls-1-29-3-1 {top: 626px; left: 847px;}
+.ls-1-30-0-1 {top: 709px; left: 148px;}
+.ls-1-30-1-1 {top: 709px; left: 208px;}
+.ls-1-30-2-1 {top: 708px; left: 272px;}
+.ls-1-30-3-1 {top: 709px; left: 342px;}
+.ls-1-31-0-1 {top: 714px; left: 496px;}
+.ls-1-31-1-1 {top: 713px; left: 554px;}
+.ls-1-31-2-1 {top: 713px; left: 611px;}
+.ls-1-32-0-1 {top: 708px; left: 737px;}
+.ls-1-32-1-1 {top: 741px; left: 798px;}
+.ls-1-32-2-1 {top: 730px; left: 870px;}
+.ls-1-33-0-1 {top: 687px; left: 900px;}
+.ls-1-33-1-1 {top: 717px; left: 916px;}
+.ls-1-33-2-1 {top: 712px; left: 979px;}
+.ls-1-33-3-1 {top: 739px; left: 1050px;}
+
+/* Every city's location as an offset calculated from the board's upper left */
+.ls-2-0-0-0 {top: 158px; left: 86px;}
+.ls-2-0-1-0 {top: 152px; left: 110px;}
+.ls-2-1-0-0 {top: 146px; left: 310px;}
+.ls-2-1-1-0 {top: 151px; left: 339px;}
+.ls-2-2-0-0 {top: 98px; left: 600px;}
+.ls-2-3-0-0 {top: 77px; left: 815px;}
+.ls-2-3-1-0 {top: 76px; left: 840px;}
+.ls-2-3-2-0 {top: 76px; left: 868px;}
+.ls-2-4-0-0 {top: 83px; left: 985px;}
+.ls-2-4-1-0 {top: 83px; left: 1010px;}
+.ls-2-5-0-0 {top: 267px; left: 78px;}
+.ls-2-5-1-0 {top: 273px; left: 107px;}
+.ls-2-6-0-0 {top: 192px; left: 541px;}
+.ls-2-6-1-0 {top: 199px; left: 569px;}
+.ls-2-7-0-0 {top: 239px; left: 859px;}
+.ls-2-7-1-0 {top: 244px; left: 889px;}
+.ls-2-8-0-0 {top: 206px; left: 1010px;}  
+.ls-2-8-1-0 {top: 206px; left: 1036px;}
+.ls-2-8-2-0 {top: 199px; left: 1063px;}
+.ls-2-9-0-0 {top: 435px; left: 72px;}
+.ls-2-9-1-0 {top: 429px; left: 96px;}
+.ls-2-9-2-0 {top: 434px; left: 125px;}
+.ls-2-9-3-0 {top: 434px; left: 150px;}
+.ls-2-10-0-0 {top: 355px; left: 287px;}
+.ls-2-10-1-0 {top: 355px; left: 313px;}
+.ls-2-10-2-0 {top: 355px; left: 339px;}
+.ls-2-11-0-0 {top: 462px; left: 311px;}
+.ls-2-11-1-0 {top: 468px; left: 339px;}
+.ls-2-12-0-0 {top: 414px; left: 492px;}
+.ls-2-12-1-0 {top: 414px; left: 516px;}
+.ls-2-12-2-0 {top: 414px; left: 541px;}
+.ls-2-12-3-0 {top: 413px; left: 567px;}
+.ls-2-13-0-0 {top: 329px; left: 673px;}
+.ls-2-13-1-0 {top: 329px; left: 696px;}
+.ls-2-14-0-0 {top: 490px; left: 701px;}
+.ls-2-14-1-0 {top: 490px; left: 724px;}
+.ls-2-15-0-0 {top: 382px; left: 810px;}
+.ls-2-16-0-0 {top: 418px; left: 991px;}
+.ls-2-16-1-0 {top: 410px; left: 1015px;}
+.ls-2-16-2-0 {top: 418px; left: 1046px;}
+.ls-2-16-3-0 {top: 418px; left: 1071px;}
+.ls-2-17-0-0 {top: 590px; left: 126px;}
+.ls-2-18-0-0 {top: 580px; left: 268px;}
+.ls-2-18-1-0 {top: 585px; left: 299px;}
+.ls-2-18-2-0 {top: 585px; left: 325px;}
+.ls-2-19-0-0 {top: 602px; left: 511px;}
+.ls-2-19-1-0 {top: 597px; left: 533px;}
+.ls-2-20-0-0 {top: 544px; left: 881px;}
+.ls-2-20-1-0 {top: 544px; left: 905px;}
+.ls-2-21-0-0 {top: 602px; left: 1030px;}
+.ls-2-21-1-0 {top: 607px; left: 1061px;}
+.ls-2-22-0-0 {top: 693px; left: 82px;}
+.ls-2-22-1-0 {top: 692px; left: 106px;}
+.ls-2-22-0-2 {top: 658px; left: 179px;}
+.ls-2-22-1-2 {top: 658px; left: 220px;}
+.ls-2-22-2-2 {top: 658px; left: 261px;}
+.ls-2-22-3-2 {top: 658px; left: 302px;}
+.ls-2-23-0-0 {top: 727px; left: 409px;}
+.ls-2-23-1-0 {top: 728px; left: 431px;}
+.ls-2-24-0-0 {top: 699px; left: 640px;}
+.ls-2-24-1-0 {top: 693px; left: 665px;}
+.ls-2-24-2-0 {top: 699px; left: 696px;}
+.ls-2-25-0-0 {top: 636px; left: 906px;}
+.ls-2-25-1-0 {top: 635px; left: 934px;}
+.ls-2-26-0-0 {top: 691px; left: 996px;}
+.ls-2-26-1-0 {top: 691px; left: 1022px;}
+
+/* Every player board piece location as an offset calculated from the board's upper left */
+.ls-3-0-1-0 {top: 5px; left: 1328px;}
+.ls-3-0-1-1 {top: 5px; left: 1351px;}
+.ls-3-0-1-2 {top: 5px; left: 1374px;}
+.ls-3-0-1-3 {top: 5px; left: 1397px;}
+.ls-3-0-1-4 {top: 5px; left: 1420px;}
+.ls-3-0-1-5 {top: 5px; left: 1443px;}
+.ls-3-0-0-0 {top: 27px; left: 1328px;}
+.ls-3-0-0-1 {top: 27px; left: 1351px;}
+.ls-3-0-0-2 {top: 27px; left: 1374px;}
+.ls-3-0-0-3 {top: 27px; left: 1397px;}
+.ls-3-0-0-4 {top: 27px; left: 1420px;}
+.ls-3-0-2-0 {top: 49px; left: 1328px;}
+.ls-3-0-2-1 {top: 49px; left: 1351px;}
+.ls-3-0-2-2 {top: 49px; left: 1374px;}
+.ls-3-0-2-3 {top: 49px; left: 1397px;}
+.ls-3-0-4-0 {top: 71px; left: 1328px;}
+.ls-3-0-4-1 {top: 71px; left: 1351px;}
+.ls-3-0-4-2 {top: 71px; left: 1374px;}
+.ls-3-0-4-3 {top: 71px; left: 1397px;}
+.ls-3-0-3-0 {top: 99px; left: 1328px;}
+.ls-3-0-3-1 {top: 99px; left: 1357px;}
+.ls-3-0-3-2 {top: 99px; left: 1386px;}
+.ls-3-0-3-3 {top: 99px; left: 1415px;}
+.ls-3-0-5 {top: 9px; left: 1523px; width: 115px; height:40px;}
+.ls-3-0-6 {top: 53px; left: 1478px; height: 99px; width:224px;}
+.ls-3-0-5 .piece-disc {left: 23px; top: -3px;}
+.piece-3-0-6-0 {top: 0px; left: 0px;}
+.piece-3-0-6-1 {top: 0px; left: 28px;}
+.piece-3-0-6-2 {top: 0px; left: 56px;}
+.piece-3-0-6-3 {top: 0px; left: 84px;}
+.piece-3-0-6-4 {top: 0px; left: 112px;}
+.piece-3-0-6-5 {top: 0px; left: 140px;}
+.piece-3-0-6-6 {top: 0px; left: 168px;}
+.piece-3-0-6-7 {top: 0px; left: 196px;}
+.piece-3-0-6-8 {top: 24px; left: 0px;}
+.piece-3-0-6-9 {top: 24px; left: 28px;}
+.piece-3-0-6-10 {top: 24px; left: 56px;}
+.piece-3-0-6-11 {top: 24px; left: 84px;}
+.piece-3-0-6-12 {top: 24px; left: 112px;}
+.piece-3-0-6-13 {top: 24px; left: 140px;}
+.piece-3-0-6-14 {top: 24px; left: 168px;}
+.piece-3-0-6-15 {top: 24px; left: 196px;}
+.piece-3-0-6-16 {top: 48px; left: 0px;}
+.piece-3-0-6-17 {top: 48px; left: 28px;}
+.piece-3-0-6-18 {top: 48px; left: 56px;}
+.piece-3-0-6-19 {top: 48px; left: 84px;}
+.piece-3-0-6-20 {top: 48px; left: 112px;}
+.piece-3-0-6-21 {top: 48px; left: 140px;}
+.piece-3-0-6-22 {top: 48px; left: 168px;}
+.piece-3-0-6-23 {top: 48px; left: 196px;}
+.piece-3-0-6-24 {top: 72px; left: 0px;}
+.piece-3-0-6-25 {top: 72px; left: 28px;}
+.piece-3-0-6-26 {top: 72px; left: 56px;}
+.piece-3-0-6-27 {top: 72px; left: 84px;}
+.piece-3-0-6-28 {top: 72px; left: 112px;}
+.piece-3-0-6-29 {top: 72px; left: 140px;}
+.ls-3-1-1-0 {top: 165px; left: 1328px;}
+.ls-3-1-1-1 {top: 165px; left: 1351px;}
+.ls-3-1-1-2 {top: 165px; left: 1374px;}
+.ls-3-1-1-3 {top: 165px; left: 1397px;}
+.ls-3-1-1-4 {top: 165px; left: 1420px;}
+.ls-3-1-1-5 {top: 165px; left: 1443px;}
+.ls-3-1-0-0 {top: 187px; left: 1328px;}
+.ls-3-1-0-1 {top: 187px; left: 1351px;}
+.ls-3-1-0-2 {top: 187px; left: 1374px;}
+.ls-3-1-0-3 {top: 187px; left: 1397px;}
+.ls-3-1-0-4 {top: 187px; left: 1420px;}
+.ls-3-1-2-0 {top: 209px; left: 1328px;}
+.ls-3-1-2-1 {top: 209px; left: 1351px;}
+.ls-3-1-2-2 {top: 209px; left: 1374px;}
+.ls-3-1-2-3 {top: 209px; left: 1397px;}
+.ls-3-1-4-0 {top: 231px; left: 1328px;}
+.ls-3-1-4-1 {top: 231px; left: 1351px;}
+.ls-3-1-4-2 {top: 231px; left: 1374px;}
+.ls-3-1-4-3 {top: 231px; left: 1397px;}
+.ls-3-1-3-0 {top: 259px; left: 1328px;}
+.ls-3-1-3-1 {top: 259px; left: 1357px;}
+.ls-3-1-3-2 {top: 259px; left: 1386px;}
+.ls-3-1-3-3 {top: 259px; left: 1415px;}
+.ls-3-1-5 {top: 169px; left: 1523px; width: 115px; height:40px;}
+.ls-3-1-6 {top: 213px; left: 1478px; height: 99px; width:224px;}
+.ls-3-1-5 .piece-disc {left: 23px; top: -3px;}
+.piece-3-1-6-0 {top: 0px; left: 0px;}
+.piece-3-1-6-1 {top: 0px; left: 28px;}
+.piece-3-1-6-2 {top: 0px; left: 56px;}
+.piece-3-1-6-3 {top: 0px; left: 84px;}
+.piece-3-1-6-4 {top: 0px; left: 112px;}
+.piece-3-1-6-5 {top: 0px; left: 140px;}
+.piece-3-1-6-6 {top: 0px; left: 168px;}
+.piece-3-1-6-7 {top: 0px; left: 196px;}
+.piece-3-1-6-8 {top: 24px; left: 0px;}
+.piece-3-1-6-9 {top: 24px; left: 28px;}
+.piece-3-1-6-10 {top: 24px; left: 56px;}
+.piece-3-1-6-11 {top: 24px; left: 84px;}
+.piece-3-1-6-12 {top: 24px; left: 112px;}
+.piece-3-1-6-13 {top: 24px; left: 140px;}
+.piece-3-1-6-14 {top: 24px; left: 168px;}
+.piece-3-1-6-15 {top: 24px; left: 196px;}
+.piece-3-1-6-16 {top: 48px; left: 0px;}
+.piece-3-1-6-17 {top: 48px; left: 28px;}
+.piece-3-1-6-18 {top: 48px; left: 56px;}
+.piece-3-1-6-19 {top: 48px; left: 84px;}
+.piece-3-1-6-20 {top: 48px; left: 112px;}
+.piece-3-1-6-21 {top: 48px; left: 140px;}
+.piece-3-1-6-22 {top: 48px; left: 168px;}
+.piece-3-1-6-23 {top: 48px; left: 196px;}
+.piece-3-1-6-24 {top: 72px; left: 0px;}
+.piece-3-1-6-25 {top: 72px; left: 28px;}
+.piece-3-1-6-26 {top: 72px; left: 56px;}
+.piece-3-1-6-27 {top: 72px; left: 84px;}
+.piece-3-1-6-28 {top: 72px; left: 112px;}
+.piece-3-1-6-29 {top: 72px; left: 140px;}
+.ls-3-2-1-0 {top: 325px; left: 1328px;}
+.ls-3-2-1-1 {top: 325px; left: 1351px;}
+.ls-3-2-1-2 {top: 325px; left: 1374px;}
+.ls-3-2-1-3 {top: 325px; left: 1397px;}
+.ls-3-2-1-4 {top: 325px; left: 1420px;}
+.ls-3-2-1-5 {top: 325px; left: 1443px;}
+.ls-3-2-0-0 {top: 347px; left: 1328px;}
+.ls-3-2-0-1 {top: 347px; left: 1351px;}
+.ls-3-2-0-2 {top: 347px; left: 1374px;}
+.ls-3-2-0-3 {top: 347px; left: 1397px;}
+.ls-3-2-0-4 {top: 347px; left: 1420px;}
+.ls-3-2-2-0 {top: 369px; left: 1328px;}
+.ls-3-2-2-1 {top: 369px; left: 1351px;}
+.ls-3-2-2-2 {top: 369px; left: 1374px;}
+.ls-3-2-2-3 {top: 369px; left: 1397px;}
+.ls-3-2-4-0 {top: 391px; left: 1328px;}
+.ls-3-2-4-1 {top: 391px; left: 1351px;}
+.ls-3-2-4-2 {top: 391px; left: 1374px;}
+.ls-3-2-4-3 {top: 391px; left: 1397px;}
+.ls-3-2-3-0 {top: 419px; left: 1328px;}
+.ls-3-2-3-1 {top: 419px; left: 1357px;}
+.ls-3-2-3-2 {top: 419px; left: 1386px;}
+.ls-3-2-3-3 {top: 419px; left: 1415px;}
+.ls-3-2-5 {top: 329px; left: 1523px; width: 115px; height:40px;}
+.ls-3-2-6 {top: 373px; left: 1478px; height: 99px; width:224px;}
+.ls-3-2-5 .piece-disc {left: 23px; top: -3px;}
+.piece-3-2-6-0 {top: 0px; left: 0px;}
+.piece-3-2-6-1 {top: 0px; left: 28px;}
+.piece-3-2-6-2 {top: 0px; left: 56px;}
+.piece-3-2-6-3 {top: 0px; left: 84px;}
+.piece-3-2-6-4 {top: 0px; left: 112px;}
+.piece-3-2-6-5 {top: 0px; left: 140px;}
+.piece-3-2-6-6 {top: 0px; left: 168px;}
+.piece-3-2-6-7 {top: 0px; left: 196px;}
+.piece-3-2-6-8 {top: 24px; left: 0px;}
+.piece-3-2-6-9 {top: 24px; left: 28px;}
+.piece-3-2-6-10 {top: 24px; left: 56px;}
+.piece-3-2-6-11 {top: 24px; left: 84px;}
+.piece-3-2-6-12 {top: 24px; left: 112px;}
+.piece-3-2-6-13 {top: 24px; left: 140px;}
+.piece-3-2-6-14 {top: 24px; left: 168px;}
+.piece-3-2-6-15 {top: 24px; left: 196px;}
+.piece-3-2-6-16 {top: 48px; left: 0px;}
+.piece-3-2-6-17 {top: 48px; left: 28px;}
+.piece-3-2-6-18 {top: 48px; left: 56px;}
+.piece-3-2-6-19 {top: 48px; left: 84px;}
+.piece-3-2-6-20 {top: 48px; left: 112px;}
+.piece-3-2-6-21 {top: 48px; left: 140px;}
+.piece-3-2-6-22 {top: 48px; left: 168px;}
+.piece-3-2-6-23 {top: 48px; left: 196px;}
+.piece-3-2-6-24 {top: 72px; left: 0px;}
+.piece-3-2-6-25 {top: 72px; left: 28px;}
+.piece-3-2-6-26 {top: 72px; left: 56px;}
+.piece-3-2-6-27 {top: 72px; left: 84px;}
+.piece-3-2-6-28 {top: 72px; left: 112px;}
+.piece-3-2-6-29 {top: 72px; left: 140px;}
+.ls-3-3-1-0 {top: 485px; left: 1328px;}
+.ls-3-3-1-1 {top: 485px; left: 1351px;}
+.ls-3-3-1-2 {top: 485px; left: 1374px;}
+.ls-3-3-1-3 {top: 485px; left: 1397px;}
+.ls-3-3-1-4 {top: 485px; left: 1420px;}
+.ls-3-3-1-5 {top: 485px; left: 1443px;}
+.ls-3-3-0-0 {top: 507px; left: 1328px;}
+.ls-3-3-0-1 {top: 507px; left: 1351px;}
+.ls-3-3-0-2 {top: 507px; left: 1374px;}
+.ls-3-3-0-3 {top: 507px; left: 1397px;}
+.ls-3-3-0-4 {top: 507px; left: 1420px;}
+.ls-3-3-2-0 {top: 529px; left: 1328px;}
+.ls-3-3-2-1 {top: 529px; left: 1351px;}
+.ls-3-3-2-2 {top: 529px; left: 1374px;}
+.ls-3-3-2-3 {top: 529px; left: 1397px;}
+.ls-3-3-4-0 {top: 551px; left: 1328px;}
+.ls-3-3-4-1 {top: 551px; left: 1351px;}
+.ls-3-3-4-2 {top: 551px; left: 1374px;}
+.ls-3-3-4-3 {top: 551px; left: 1397px;}
+.ls-3-3-3-0 {top: 579px; left: 1328px;}
+.ls-3-3-3-1 {top: 579px; left: 1357px;}
+.ls-3-3-3-2 {top: 579px; left: 1386px;}
+.ls-3-3-3-3 {top: 579px; left: 1415px;}
+.ls-3-3-5 {top: 489px; left: 1523px; width: 115px; height:40px;}
+.ls-3-3-6 {top: 533px; left: 1478px; height: 99px; width:224px;}
+.ls-3-3-5 .piece-disc {left: 23px; top: -3px;}
+.piece-3-3-6-0 {top: 0px; left: 0px;}
+.piece-3-3-6-1 {top: 0px; left: 28px;}
+.piece-3-3-6-2 {top: 0px; left: 56px;}
+.piece-3-3-6-3 {top: 0px; left: 84px;}
+.piece-3-3-6-4 {top: 0px; left: 112px;}
+.piece-3-3-6-5 {top: 0px; left: 140px;}
+.piece-3-3-6-6 {top: 0px; left: 168px;}
+.piece-3-3-6-7 {top: 0px; left: 196px;}
+.piece-3-3-6-8 {top: 24px; left: 0px;}
+.piece-3-3-6-9 {top: 24px; left: 28px;}
+.piece-3-3-6-10 {top: 24px; left: 56px;}
+.piece-3-3-6-11 {top: 24px; left: 84px;}
+.piece-3-3-6-12 {top: 24px; left: 112px;}
+.piece-3-3-6-13 {top: 24px; left: 140px;}
+.piece-3-3-6-14 {top: 24px; left: 168px;}
+.piece-3-3-6-15 {top: 24px; left: 196px;}
+.piece-3-3-6-16 {top: 48px; left: 0px;}
+.piece-3-3-6-17 {top: 48px; left: 28px;}
+.piece-3-3-6-18 {top: 48px; left: 56px;}
+.piece-3-3-6-19 {top: 48px; left: 84px;}
+.piece-3-3-6-20 {top: 48px; left: 112px;}
+.piece-3-3-6-21 {top: 48px; left: 140px;}
+.piece-3-3-6-22 {top: 48px; left: 168px;}
+.piece-3-3-6-23 {top: 48px; left: 196px;}
+.piece-3-3-6-24 {top: 72px; left: 0px;}
+.piece-3-3-6-25 {top: 72px; left: 28px;}
+.piece-3-3-6-26 {top: 72px; left: 56px;}
+.piece-3-3-6-27 {top: 72px; left: 84px;}
+.piece-3-3-6-28 {top: 72px; left: 112px;}
+.piece-3-3-6-29 {top: 72px; left: 140px;}
+.ls-3-4-1-0 {top: 645px; left: 1328px;}
+.ls-3-4-1-1 {top: 645px; left: 1351px;}
+.ls-3-4-1-2 {top: 645px; left: 1374px;}
+.ls-3-4-1-3 {top: 645px; left: 1397px;}
+.ls-3-4-1-4 {top: 645px; left: 1420px;}
+.ls-3-4-1-5 {top: 645px; left: 1443px;}
+.ls-3-4-0-0 {top: 667px; left: 1328px;}
+.ls-3-4-0-1 {top: 667px; left: 1351px;}
+.ls-3-4-0-2 {top: 667px; left: 1374px;}
+.ls-3-4-0-3 {top: 667px; left: 1397px;}
+.ls-3-4-0-4 {top: 667px; left: 1420px;}
+.ls-3-4-2-0 {top: 689px; left: 1328px;}
+.ls-3-4-2-1 {top: 689px; left: 1351px;}
+.ls-3-4-2-2 {top: 689px; left: 1374px;}
+.ls-3-4-2-3 {top: 689px; left: 1397px;}
+.ls-3-4-4-0 {top: 711px; left: 1328px;}
+.ls-3-4-4-1 {top: 711px; left: 1351px;}
+.ls-3-4-4-2 {top: 711px; left: 1374px;}
+.ls-3-4-4-3 {top: 711px; left: 1397px;}
+.ls-3-4-3-0 {top: 739px; left: 1328px;}
+.ls-3-4-3-1 {top: 739px; left: 1357px;}
+.ls-3-4-3-2 {top: 739px; left: 1386px;}
+.ls-3-4-3-3 {top: 739px; left: 1415px;}
+.ls-3-4-5 {top: 649px; left: 1523px; width: 115px; height:40px;}
+.ls-3-4-6 {top: 693px; left: 1478px; height: 99px; width:224px;}
+.ls-3-4-5 .piece-disc {left: 23px; top: -3px;}
+.piece-3-4-6-0 {top: 0px; left: 0px;}
+.piece-3-4-6-1 {top: 0px; left: 28px;}
+.piece-3-4-6-2 {top: 0px; left: 56px;}
+.piece-3-4-6-3 {top: 0px; left: 84px;}
+.piece-3-4-6-4 {top: 0px; left: 112px;}
+.piece-3-4-6-5 {top: 0px; left: 140px;}
+.piece-3-4-6-6 {top: 0px; left: 168px;}
+.piece-3-4-6-7 {top: 0px; left: 196px;}
+.piece-3-4-6-8 {top: 24px; left: 0px;}
+.piece-3-4-6-9 {top: 24px; left: 28px;}
+.piece-3-4-6-10 {top: 24px; left: 56px;}
+.piece-3-4-6-11 {top: 24px; left: 84px;}
+.piece-3-4-6-12 {top: 24px; left: 112px;}
+.piece-3-4-6-13 {top: 24px; left: 140px;}
+.piece-3-4-6-14 {top: 24px; left: 168px;}
+.piece-3-4-6-15 {top: 24px; left: 196px;}
+.piece-3-4-6-16 {top: 48px; left: 0px;}
+.piece-3-4-6-17 {top: 48px; left: 28px;}
+.piece-3-4-6-18 {top: 48px; left: 56px;}
+.piece-3-4-6-19 {top: 48px; left: 84px;}
+.piece-3-4-6-20 {top: 48px; left: 112px;}
+.piece-3-4-6-21 {top: 48px; left: 140px;}
+.piece-3-4-6-22 {top: 48px; left: 168px;}
+.piece-3-4-6-23 {top: 48px; left: 196px;}
+.piece-3-4-6-24 {top: 72px; left: 0px;}
+.piece-3-4-6-25 {top: 72px; left: 28px;}
+.piece-3-4-6-26 {top: 72px; left: 56px;}
+.piece-3-4-6-27 {top: 72px; left: 84px;}
+.piece-3-4-6-28 {top: 72px; left: 112px;}
+.piece-3-4-6-29 {top: 72px; left: 140px;}

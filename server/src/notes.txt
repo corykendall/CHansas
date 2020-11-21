@@ -1,0 +1,15 @@
+
+
+Workflow engine: DAX underneath.
+
+Flume java paaper.
+
+Daffy main product.
+
+Daffy used by Google Cloud Dataflow (a GCP product).o 
+
+Part of technical infrastructure
+
+TFX surrounding ingra around Tensorflow
+
+

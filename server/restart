@@ -1,0 +1,11 @@
+#!/bin/bash
+port=9000
+./stop
+
+until [ $(netstat -napl 2>/dev/null | grep :::$port | wc -l 2>/dev/null) == 0 ]
+do
+    echo "waiting 1s for port $port to become usable"
+    sleep 1s
+done
+
+./start

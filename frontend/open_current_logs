@@ -1,0 +1,7 @@
+#!/bin/bash
+
+curDate=$(date +'%Y%m%d')
+
+vim -p logs/frontend_outerr.log logs/frontend.log.$curDate logs/server_outerr.log logs/server.log.$curDate 
+
+
