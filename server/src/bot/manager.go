@@ -42,11 +42,11 @@ var botIdentities = map[string]simple.Identity{
     "B5": simple.NewBotIdentity("B5", "Cory (Bot)"),
 }
 
-var botWeights = map[string]Weights {
-    "B1": coryWeights,
-    "B2": coryWeights,
-    "B3": coryWeights,
-    "B4": coryWeights,
+var botWeights = map[string]WeightSet {
+    "B1": derekWeights,
+    "B2": caniceWeights,
+    "B3": jacobWeights,
+    "B4": bcripeWeights,
     "B5": coryWeights,
 }
 

@@ -13,7 +13,7 @@ type RouteBrain struct {
     // Required on instantiation
     identity simple.Identity
     gameId int
-    weights Weights
+    weights WeightSet
 
     // Initialized when we get a startgame message
     player int
@@ -157,11 +157,12 @@ func (b *RouteBrain) choosePlan(actions int) Plan {
         }
     }
     sort.Slice(plans, func(i, j int) bool {
-        return plans[i].Fitness > plans[j].Fitness
+        return plans[i].FitnessValue > plans[j].FitnessValue
     })
     b.debugf("Considered %d potential plans", len(plans))
-    b.debugf("Chose a %s plan to %s on route %d with score %d",
-        lengthNames[plans[0].Length], goalNames[plans[0].Goal], plans[0].RouteId, plans[0].Score)
+    b.debugf("Chose a %s plan to %s on route %d with fitness %d",
+        lengthNames[plans[0].Length], goalNames[plans[0].Goal], plans[0].RouteId, plans[0].FitnessValue)
+    b.debugf("Fitness calculation: %s", plans[0].FitnessDescription)
     b.debugf("Full plan: %+v", plans[0])
 
     // This is where we mutate b.table chosen plan (we stop after applying bump
@@ -253,29 +254,38 @@ func (b *RouteBrain) generatePlans(r int, g Goal, c Context) []Plan {
 func (b *RouteBrain) generateAwardPlans(r int, c Context) []Plan {
     a := b.getRouteAward(r)
     weight := b.rawAwardWeight(a, c)
-    if weight == 0 {
+    if weight < 0.0001 {
         return []Plan{}
     }
 
-    // Note that the subactions in each of these plans are not currently
-    // applied to b.table.
     shape := simple.NoneShape
     if a == simple.CoellenAward {
         shape = simple.DiscShape
     }
 
+    // Note that the subactions in each of these plans are not currently
+    // applied to b.table.
     ps := b.generatePointsPlans(r, c, shape)
     for i, _ := range ps {
         ps[i].Goal = AwardGoal
 
-        // We don't care as much about low scoring plays, because we are
-        // getting a lot from the award.  Let's undo the PointsPlan penalty
-        if ps[i].Score == 0 {
-            ps[i].Fitness *= 10
-        } else if ps[i].Score == 1 {
-            ps[i].Fitness += 20
+        // Move over the pieces of PointsPlanFitness that we care about, and
+        // recalculate our own fitness with the necessary fields.
+        fitness := AwardPlanFitness{
+            Length: ps[i].Fitness.(PointsPlanFitness).Length,
+            BumpInfos: ps[i].Fitness.(PointsPlanFitness).BumpInfos,
+            MyPoints: ps[i].Fitness.(PointsPlanFitness).MyPoints,
+            OthersPoints: ps[i].Fitness.(PointsPlanFitness).OthersPoints,
         }
-        ps[i].Fitness += weight
+        fitness.Award = a
+        if a == simple.CoellenAward {
+            fitness.AwardsLeft = b.getCoellenTarget().Index
+        } else {
+            fitness.AwardsLeft = b.table.PlayerBoards[b.player].AwardTrackRemaining(a)
+        }
+        ps[i].Fitness = fitness
+        ps[i].FitnessValue = fitness.Value(b.weights[c.GameTime])
+        ps[i].FitnessDescription = fitness.Calculation(b.weights[c.GameTime])
 
         // If we cleared, we also need to take our reward.
         if ps[i].Length == ShortPlan || ps[i].Length == FullPlan {
@@ -323,171 +333,159 @@ func (b *RouteBrain) generateAwardPlans(r int, c Context) []Plan {
     return ps
 }
 
-// Returns the value of taking an office in a city, and what shape it is.  If
-// you can't take this office without another upgrade (no priviledge, full
-// office) returns 0.  This will return a value > 0 even if it will take many
-// turns or movement to take the office.
-func (b *RouteBrain) calcOfficeValue(city simple.City, c Context) (simple.Location, int, simple.Shape) {
-    myPriviledge := b.table.PlayerBoards[b.player].GetPriviledge()
 
-    presence := map[simple.PlayerColor]int{}
-    presenceTiebreak := map[simple.PlayerColor]int{}
-    shape := simple.CubeShape
-    var location simple.Location
+// Returns None location if we can't take an office here without getting
+// another upgrade (no priviledge, full).
+func (b *RouteBrain) getBuildOfficeInfo(city simple.City, c Context) (simple.Location, simple.Shape) {
+    myPriviledge := b.table.PlayerBoards[b.player].GetPriviledge()
 
     for i, o := range city.Offices {
         if o.Piece == (simple.Piece{}) {
             if myPriviledge < o.Priviledge {
-                return location, 0, simple.NoneShape
+                return simple.NoneLocation, simple.NoneShape
             }
-            if o.Shape == simple.DiscShape {
-                shape = simple.DiscShape
-            }
-            location = simple.Location{
+            return simple.Location{
                 Type: simple.CityLocationType,
                 Id: city.Id,
                 Index: i,
-            }
-            break
-        } else {
-            presence[o.Piece.PlayerColor] += 1
-            presenceTiebreak[o.Piece.PlayerColor] = i
+            }, o.Shape
         }
     }
-    if location == simple.NoneLocation {
-        return location, 0, simple.NoneShape
-    }
-    for _, p := range city.VirtualOffices {
-        if p == (simple.Piece{}) {
-            break
-        }
-        presence[p.PlayerColor] += 1
-    }
-
-    // This is the value we are ultimately returning.
-    fitness := b.weights.OfficeLike[c.GameTime]
-    if city.Award != simple.NoneAward {
-        fitness += b.weights.AwardOfficeLike[c.GameTime]
-    }
-
-    myControl := 0
-    winningControl := 0
-    winningTie := false
-    iWinTie := false
-    for color, v := range presence {
-        if color == b.color {
-            myControl = v
-        }
-        if v == winningControl {
-            winningTie = true
-            if color == b.color {
-                iWinTie = true
-            } else {
-                iWinTie = false
-            }
-        }
-        if v > winningControl {
-            winningControl = v
-            winningTie = false
-            if color == b.color {
-                iWinTie = true
-            } else {
-                iWinTie = false
-            }
-        }
-    }
-    if winningControl == 0 {
-        fitness += b.weights.FirstOfficeLike
-    } else if myControl == winningControl - 1 || (myControl == winningControl && winningTie && !iWinTie) {
-        // This is the default case; we win control with this build.
-    } else {
-        fitness -= b.weights.NonControlOfficeAversion
-    }
-
-    if shape == simple.DiscShape {
-        fitness -= b.weights.DiscOfficeAversion[c.GameTime]
-    }
-
-    // This handles a city not in our network (no bonus) adding a city to an
-    // existing network (+1 bonus) or connecting 2 disparate networks (+n
-    // bonus) with a multiplication.  This should make the reward for
-    // connecting 2 moderate sized networks high enough, I think.
-    networkDiff := b.table.Board.GetNetworkScoreIfCity(b.color, city.Id) -
-        b.table.Board.GetNetworkScore(b.color)
-    fitness += b.weights.NetworkLike[c.GameTime] * networkDiff
-
-    return location, fitness, shape
+    return simple.NoneLocation, simple.NoneShape
 }
 
+
+
+/*
+}
+*/
+
 func (b *RouteBrain) generateOfficePlans(r int, c Context) []Plan {
-    haveDisc := c.SupplyDisc || c.StockDisc
-    location, raw, shape := b.calcOfficeValue(b.table.Board.Cities[b.table.Board.Routes[r].LeftCityId], c)
+    returnPlans := []Plan{}
 
-    // This doesn't include the relative cost of a disc (stock vs supply when I have other pieces?)
-    if raw == 0 || (shape == simple.DiscShape && !haveDisc) {
-        location, raw, shape = b.calcOfficeValue(b.table.Board.Cities[b.table.Board.Routes[r].RightCityId], c)
-    } else {
-        lR, rR, sR := b.calcOfficeValue(b.table.Board.Cities[b.table.Board.Routes[r].RightCityId], c)
-        if rR > raw && (sR != simple.DiscShape || haveDisc) {
-            location, raw, shape = lR, rR, sR
+    // Generate up to 2 plans, one for claiming an office in each city (left and right).
+    for _, city := range []simple.City{
+        b.table.Board.Cities[b.table.Board.Routes[r].LeftCityId],
+        b.table.Board.Cities[b.table.Board.Routes[r].RightCityId],
+    } {
+        location, shape := b.getBuildOfficeInfo(city, c)
+        if location == simple.NoneLocation {
+            continue
         }
-    }
-    if raw == 0 || (shape == simple.DiscShape && !haveDisc) {
-        return []Plan{}
-    }
-
-    // Note that the subactions in each of these plans are not currently
-    // applied to b.table.
-    ps := b.generatePointsPlans(r, c, shape)
-    for i, _ := range ps {
-        ps[i].Goal = OfficeGoal
-
-        // We don't care as much about low scoring plays, because we are
-        // getting a lot from the office.  Let's undo the PointsPlan penalty
-        if ps[i].Score == 0 {
-            ps[i].Fitness *= 10
-        } else if ps[i].Score == 1 {
-            ps[i].Fitness += 20
+        if shape == simple.DiscShape && !c.SupplyDisc && !c.StockDisc {
+            continue
         }
-        ps[i].Fitness += raw
 
-        // If we cleared, we need to replace one of the clearing Subactions
-        // with a move into our office.  If we took a disc office, we need to
-        // move a disc, and if we took a cube office, we need to move a cube.
-        if ps[i].Length == ShortPlan || ps[i].Length == FullPlan {
+        // Note that the subactions in each of these plans are not currently
+        // applied to b.table.
+        ps := b.generatePointsPlans(r, c, shape)
+        for i, _ := range ps {
+            ps[i].Goal = OfficeGoal
 
-            // We are looking for a clear subaction with the right shape
-            handled := false
-            for i2:=len(ps[i].Subactions)-1;i2>=0;i2-- {
-                candidate := ps[i].Subactions[i2]
-                if candidate.Source.Type == simple.RouteLocationType &&
-                    candidate.Source.Id == r &&
-                    candidate.Piece.Shape == shape {
-                    ps[i].Subactions[i2].Dest = location
-                    handled = true
-                    break
+            // Steal the parts of PointsPlanFitness that we want to use.
+            fitness := OfficePlanFitness{
+                Length: ps[i].Fitness.(PointsPlanFitness).Length,
+                BumpInfos: ps[i].Fitness.(PointsPlanFitness).BumpInfos,
+                MyPoints: ps[i].Fitness.(PointsPlanFitness).MyPoints,
+                OthersPoints: ps[i].Fitness.(PointsPlanFitness).OthersPoints,
+            }
+            fitness.AwardOffice = city.Award != simple.NoneAward
+            fitness.DiscOffice = shape == simple.DiscShape
+
+            // Calculate fitness pieces that are specific to building an office.
+            presence := map[simple.PlayerColor]int{}
+            presenceTiebreak := map[simple.PlayerColor]int{}
+            for i, o := range city.Offices {
+                if o.Piece != (simple.Piece{}) {
+                    presence[o.Piece.PlayerColor] += 1
+                    presenceTiebreak[o.Piece.PlayerColor] = i
                 }
             }
+            fitness.FirstOffice = len(presence) == 0
 
-            // Note there is a rare edge case here where the cleared route is
-            // all discs and we want to take a cube office.  In that case we
-            // just bomb out for now.
-            if !handled {
-                return []Plan{}
+            // Calculating whether this would give me control is a little
+            // convoluted.
+            myControl := presence[b.color]
+            winningControl := 0
+            winningTie := false
+            iWinTie := false
+            for color, v := range presence {
+                if v == winningControl {
+                    winningTie = true
+                    if color == b.color {
+                        iWinTie = true
+                    } else {
+                        iWinTie = false
+                    }
+                }
+                if v > winningControl {
+                    winningControl = v
+                    winningTie = false
+                    if color == b.color {
+                        iWinTie = true
+                    } else {
+                        iWinTie = false
+                    }
+                }
+            }
+            fitness.NonControlOffice = winningControl != 0 &&
+                myControl == winningControl - 1 &&
+                !(myControl == winningControl && winningTie && !iWinTie)
+            fitness.NetworkDelta = b.table.Board.GetNetworkScoreIfCity(b.color, city.Id) -
+                b.table.Board.GetNetworkScore(b.color)
+            fitness.NetworkDelta = min(fitness.NetworkDelta, 6)
+            ps[i].Fitness = fitness
+            ps[i].FitnessValue = fitness.Value(b.weights[c.GameTime])
+            ps[i].FitnessDescription = fitness.Calculation(b.weights[c.GameTime])
+
+            // If we cleared, we need to replace one of the clearing Subactions
+            // with a move into our office.  If we took a disc office, we need to
+            // move a disc, and if we took a cube office, we need to move a cube.
+            if ps[i].Length == ShortPlan || ps[i].Length == FullPlan {
+
+                // We are looking for a clear subaction with the right shape
+                handled := false
+                for i2:=len(ps[i].Subactions)-1;i2>=0;i2-- {
+                    candidate := ps[i].Subactions[i2]
+                    if candidate.Source.Type == simple.RouteLocationType &&
+                        candidate.Source.Id == r &&
+                        candidate.Piece.Shape == shape {
+                        ps[i].Subactions[i2].Dest = location
+                        handled = true
+                        break
+                    }
+                }
+
+                // TODO: Note there is a rare edge case here where the cleared route is
+                // all discs and we want to take a cube office.  In that case we
+                // just bomb out for now.
+                if !handled {
+                    return []Plan{}
+                }
             }
         }
+        returnPlans = append(returnPlans, ps...)
     }
-    return ps
+
+    // TODO: Revisit when computer are moving pieces again.
+    if len(returnPlans) < 2 {
+        return returnPlans
+    } else if returnPlans[0].FitnessValue > returnPlans[1].FitnessValue {
+        return []Plan{returnPlans[0]}
+    }
+    return []Plan{returnPlans[1]}
 }
 
 // Unlike the other generate*Plan methods, this is guaranteed to return a plan
 // when shape is NoneShape. (no matter how bad, even if it generates 0 points).
 // This way in degenerate board states where there is somehow no awards to
-// claim, no offices I'm elligible for, and no other players to block (???) we
-// still have a plan, even if there is no way to score points.
+// claim, no offices I'm elligible for, no points to gain, and no other players
+// to block (???) we still have a plan.
 func (b *RouteBrain) generatePointsPlans(r int, c Context, shape simple.Shape) []Plan {
+    fitness := PointsPlanFitness{}
 
     // Each route spot will need to be filled via place or bump.
+    stockAndSupply := min(10, b.myStockAndSupplyCount())
     discToBump := []simple.Location{}
     cubeToBump := []simple.Location{}
     openSpot := []simple.Location{}
@@ -506,20 +504,32 @@ func (b *RouteBrain) generatePointsPlans(r int, c Context, shape simple.Shape) [
         } else {
             if p.Shape == simple.DiscShape {
                 discToBump = append(discToBump, l)
+                stockAndSupply = max(0, stockAndSupply - 2)
             } else {
                 cubeToBump = append(cubeToBump, l)
+                stockAndSupply = max(0, stockAndSupply - 1)
             }
+            fitness.BumpInfos = append(fitness.BumpInfos, BumpFitnessInfo{
+                Disc: p.Shape == simple.DiscShape,
+                Bags: b.table.PlayerBoards[b.player].GetBags(),
+                StockAndSupply: stockAndSupply,
+            })
         }
     }
 
-    // Before we start mutating anything with this plan, let's calculate
-    // scoring.
-    score := 0
-    if (b.table.Board.Cities[b.table.Board.Routes[r].LeftCityId].GetControl() == b.color) {
-        score++
+    // Before we start mutating anything with this plan, let's calculate how
+    // many points clearing this route will give and opponents.
+    lc := b.table.Board.Cities[b.table.Board.Routes[r].LeftCityId].GetControl()
+    rc := b.table.Board.Cities[b.table.Board.Routes[r].RightCityId].GetControl()
+    if lc == b.color {
+        fitness.MyPoints++
+    } else if lc != simple.NonePlayerColor {
+        fitness.OthersPoints++
     }
-    if (b.table.Board.Cities[b.table.Board.Routes[r].RightCityId].GetControl() == b.color) {
-        score++
+    if rc == b.color {
+        fitness.MyPoints++
+    } else if rc != simple.NonePlayerColor {
+        fitness.OthersPoints++
     }
 
     // Fill the route with our pieces.  First fill open spots, then bump cubes,
@@ -595,42 +605,19 @@ func (b *RouteBrain) generatePointsPlans(r int, c Context, shape simple.Shape) [
         }
     }
 
-    // Virtually every number here could be a weight.
-    fitness := 100
     length := LongPlan
     if actionsLeft > 0 {
         if complete {
             length = ShortPlan
-            fitness += 20
         } else {
             length = UncompletablePlan
-            fitness -= 90
         }
     } else if routeCleared {
         length = FullPlan
-        fitness += 15
     } else if routeFilled {
         length = AlmostPlan
-        fitness += 5
     }
-
-    actionsUsed := c.ActionsLeft - actionsLeft
-    if actionsUsed == 1 {
-        // This means all of our pieces were already on the route, we just had to clear.
-        fitness += 50
-    }
-
-    fitness -= len(discToBump)*(b.weights.BumpAversion*2)
-    fitness -= len(cubeToBump)*(b.weights.BumpAversion)
-
-    // Changes based on score are the final tweaks made to fitness.  These will
-    // be undone if we are being called by generateAwardPlans or
-    // generateOfficePlans.
-    if (score == 0) {
-        fitness /= 10
-    } else if (score == 2) {
-        fitness += 50
-    }
+    fitness.Length = length
 
     b.table.UndoSubactions(subactions)
     return []Plan{Plan{
@@ -639,8 +626,9 @@ func (b *RouteBrain) generatePointsPlans(r int, c Context, shape simple.Shape) [
         Length: length,
         Actions: c.ActionsLeft - actionsLeft,
         Moves: false,
-        Score: score,
         Fitness: fitness,
+        FitnessValue: fitness.Value(b.weights[c.GameTime]),
+        FitnessDescription: fitness.Calculation(b.weights[c.GameTime]),
         Subactions: subactions,
         Bumps: bumps,
     }}
@@ -800,16 +788,15 @@ func (b *RouteBrain) clearRouteForPoints(r int) []simple.Subaction {
 
 // It's assumed that we are never called with c.ActionsLeft == 0
 func (b *RouteBrain) generateBlockPlans(r int, c Context) []Plan {
-    // We don't like blocking if we have less than 5 free pieces (we have a lot
-    // of pieces on the route and will lose bump potential), or if we have
-    // nothing in stock (the goal is to get bumped)
-    if c.LivePieces - c.BoardPieces < 5 ||
-        (b.myStock(b.myDisc()) == simple.NoneLocation && b.myStock(b.myCube()) == simple.NoneLocation) {
-        return []Plan{}
+    fitness := BlockPlanFitness{
+        Discs: b.table.PlayerBoards[b.player].GetBookDiscs(),
+        StockAndSupply: min(b.myStockAndSupplyCount(), 10),
     }
 
     // We can only block if we are not on the route, and if someone else is on
-    // the route, and if there is 1+ open spot.
+    // the route, and if there is 1+ open spot.  Note that the goal is to get
+    // bumped; if we actually want the route, generatePointsPlans or some
+    // derivative will score highly, and we will use that plan instead.
     someoneElse := false
     openSpots := []simple.Location{}
     for i, s := range b.table.Board.Routes[r].Spots {
@@ -823,12 +810,16 @@ func (b *RouteBrain) generateBlockPlans(r int, c Context) []Plan {
         } else if s.PlayerColor == b.color {
             return []Plan{}
         } else {
+            if someoneElse {
+                fitness.DoublePlayer = true
+            }
             someoneElse = true
         }
     }
     if !someoneElse || len(openSpots) == 0 {
         return []Plan{}
     }
+    fitness.DoublePiece = len(openSpots) > 1
 
     // Note we will always have the pieces in Supply+Stock because of our
     // opening check in this function.
@@ -856,17 +847,12 @@ func (b *RouteBrain) generateBlockPlans(r int, c Context) []Plan {
     } else if actionsLeft > 0 {
         length = ShortPlan
     }
+    fitness.Length = length
 
     // TODO: This is a simplification.  For now we add in how much we would
     // like to get a reward or an office on this route if we could, and use
     // that for how much we like to block someone else.
-    fitness := b.weights.BlockLike
-    fitness += max(b.rawAwardWeight(b.getRouteAward(r), c), b.weights.OfficeLike[c.GameTime])
-    if length == LongPlan {
-        fitness = 0
-    } else if length == ShortPlan {
-        fitness += 20
-    }
+    fitness.OpponentDesire = maxFloat(b.rawAwardWeight(b.getRouteAward(r), c), b.weights[c.GameTime].Office)
 
     b.table.UndoSubactions(subactions)
     return []Plan{Plan{
@@ -875,8 +861,9 @@ func (b *RouteBrain) generateBlockPlans(r int, c Context) []Plan {
         Length: length,
         Actions: c.ActionsLeft - actionsLeft,
         Moves: false,
-        Score: 0,
         Fitness: fitness,
+        FitnessValue: fitness.Value(b.weights[c.GameTime]),
+        FitnessDescription: fitness.Calculation(b.weights[c.GameTime]),
         Subactions: subactions,
         Bumps: []int{},
     }}
@@ -894,21 +881,25 @@ func (b *RouteBrain) getRouteAward(r int) simple.Award {
 // fully leveled or no Disc for Coellen), this is 0.  If the route has an
 // award, we pull the appropriate weight from our brain based on our
 // PlayerBoard.
-func (b *RouteBrain) rawAwardWeight(a simple.Award, c Context) int {
+func (b *RouteBrain) rawAwardWeight(a simple.Award, c Context) float64 {
     if a == simple.NoneAward {
-        return 0
+        return 0.0
     }
     if a == simple.CoellenAward {
-        if !(c.StockDisc || c.SupplyDisc || c.BoardDisc) || b.getCoellenTarget() == simple.NoneLocation {
-            return 0
+        if !(c.StockDisc || c.SupplyDisc || c.BoardDisc) {
+            return 0.0
         }
-        return b.weights.Awards[simple.CoellenAward][int(c.GameTime)]
+        l := b.getCoellenTarget()
+        if l == simple.NoneLocation {
+            return 0.0
+        }
+        return b.weights[c.GameTime].Awards[simple.CoellenAward][l.Index]
     }
     track := b.table.PlayerBoards[b.player].AwardTrackRemaining(a)
     if track == 0 {
-        return 0
+        return 0.0
     }
-    return b.weights.Awards[a][track-1]
+    return b.weights[c.GameTime].Awards[a][track]
 }
 
 // Gets the highest coellen spot with priviledge that I have.  Returns
@@ -1166,6 +1157,30 @@ func (b *RouteBrain) handleBump(d message.NotifySubactionData) []message.Client 
     return r
 }
 
+func (b *RouteBrain) myStockAndSupplyCount() int {
+    return b.myStockCount() + b.mySupplyCount()
+}
+
+func (b *RouteBrain) myStockCount() int {
+    r := 0
+    for _, p := range b.table.PlayerBoards[b.player].Stock {
+        if p.PlayerColor == b.color {
+            r++
+        }
+    }
+    return r
+}
+
+func (b *RouteBrain) mySupplyCount() int {
+    r := 0
+    for _, p := range b.table.PlayerBoards[b.player].Supply {
+        if p.PlayerColor == b.color {
+            r++
+        }
+    }
+    return r
+}
+
 func (b *RouteBrain) myDisc() simple.Piece {
     return simple.Piece{
         b.table.PlayerBoards[b.player].Color,
@@ -1254,11 +1269,25 @@ func max(x, y int) int {
     return y
 }
 
+func maxFloat(x, y float64) float64 {
+    if x > y {
+        return x
+    }
+    return y
+}
+
 func (b *RouteBrain) serializeTable() string {
     bytes, err := json.Marshal(b.table)
     if err != nil {
         panic(fmt.Sprintf("RouteBrain: serializeTable() error marshalling: '%s' b.table: %+v", err, b.table))
     }
     return string(bytes)
+}
+
+func min (x, y int) int {
+    if x < y {
+        return x
+    }
+    return y
 }
 

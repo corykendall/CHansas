@@ -9,13 +9,14 @@ type Plan struct {
     // This is provided during plan creation.
     RouteId int
     Goal Goal
-    
+
     // This is values used to weigh the plan
     Length PlanLength
     Actions int
     Moves bool
-    Score int
-    Fitness int
+    Fitness Fitness
+    FitnessValue float64
+    FitnessDescription string
 
     // Subactions is how to enact the plan.  Sometimes a plan involves bumping, which
     // means we need to play the bump (and paying for the bump), and then wait
@@ -25,7 +26,7 @@ type Plan struct {
     // opponent's response to a bump can never invalidate a route plan, so we
     // will save the rest of the plan (post bump) for after the opponent
     // responds.
-    Subactions []simple.Subaction  
+    Subactions []simple.Subaction
     Bumps []int
 }
 
@@ -36,7 +37,7 @@ const (
     ShortPlan PlanLength = iota
 
     // This plan uses exactly all of our actions.
-    FullPlan 
+    FullPlan
 
     // This plan uses all of our actions except the last one (used only for
     // clearing a route, it's assumes you can clear it next turn as a starting

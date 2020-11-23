@@ -1,14 +1,15 @@
 server/hansa
 server/build
 server/pgid.txt
-server/*.vim
+*.vim
 server/todo.txt
 frontend/build
 frontend/pgid.txt
-frontend/*.vim
+*.vim
 frontend/todo.txt
 frontend/html
 server.cfg
 logs
 rds
 deploy
+.swp
