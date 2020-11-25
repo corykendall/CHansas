@@ -13,7 +13,7 @@ type Plan struct {
     // This is values used to weigh the plan
     Length PlanLength
     Actions int
-    Moves bool
+    LeftoverMoves int
     Fitness Fitness
     FitnessValue float64
     FitnessDescription string

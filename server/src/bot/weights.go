@@ -24,6 +24,21 @@ type Weights struct {
     // long plan).
     Length map[PlanLength]float64
 
+    // Moving a piece can be a good thing (you were never going to clear the
+    // route the piece was on and it wasn't blocking anything, and by moving
+    // you are able to do more faster), or a bad thing (you are moving a useful
+    // piece to a slightly more useful place).  It can also be good because you
+    // are able to complete a goal with moves left over to work on other goals
+    // (if you level up books to have 5 moves, for example).  To calculate the
+    // effect of the move, fitness calculations will round up a value between
+    // -200 and 200 to the nearest int key they can find in this map, and use
+    // the found coefficient.  The value is the impact that the move has;
+    // moving a peice from a "20" route to a "30" route should score "10" for
+    // example.  For this map, you might have -100:0.5, 0:0.7, 50:0.9, 80:1.0,
+    // 120:1.2, 150:1.5, 200: 1.8.There must be a value at 200, which is the
+    // last value Fitness will look for.
+    Move map[int]float64
+
     //
     // All Goals that Clear (not Block)
     //
@@ -118,18 +133,84 @@ type Weights struct {
 }
 
 var GenericWeightSet = WeightSet{
-    EarlyGame: GenericWeights,
-    MidGame: GenericWeights,
-    LateGame: GenericWeights,
+    EarlyGame: GenericEarlyWeights,
+    MidGame: GenericMidWeights,
+    LateGame: GenericLateWeights,
 }
 
-var GenericWeights = Weights{
+var GenericEarlyWeights = Weights{
+    Length: map[PlanLength]float64 {
+        ShortPlan: 1.1,
+        FullPlan : 1.1,
+        AlmostPlan: 1.1,
+        LongPlan: 1.1,
+        UncompletablePlan: 0.3,
+    },
+    Move: map[int]float64{
+        -100: 0.5,
+        0: 0.7,
+        50: 0.9,
+        80: 1.0,
+        120: 1.2,
+        150: 1.5,
+        200: 1.8,
+    },
+    Bump: map[int]map[int]float64{
+        3: map[int]float64{  0:0.0, 1:0.0, 2:0.8, 3:0.8, 4:0.8, 5:0.8, 6:0.8, 7:0.8, 8:0.8, 9:0.8, 10:0.8},
+        5: map[int]float64{  0:0.0, 1:0.0, 2:0.8, 3:0.8, 4:0.8, 5:0.8, 6:0.8, 7:0.8, 8:0.8, 9:0.8, 10:0.8},
+        7: map[int]float64{  0:0.0, 1:0.0, 2:0.8, 3:0.8, 4:0.8, 5:0.8, 6:0.8, 7:0.8, 8:0.8, 9:0.8, 10:0.8},
+        100: map[int]float64{0:0.0, 1:0.0, 2:0.8, 3:0.8, 4:0.8, 5:0.8, 6:0.8, 7:0.8, 8:0.8, 9:0.8, 10:0.8},
+    },
+    DiscBump: 0.6,
+    MyPoints: 1.3,
+    OthersPoints: 0.7,
+    Awards: map[simple.Award][]float64 {
+        simple.DiscsAward: []float64{0.0, 1.5, 1.3, 2.5},
+        simple.PriviledgeAward: []float64{0.0, 1.5, 1.3, 2.5},
+        simple.BagsAward: []float64{0.0, 1.5, 1.2, 2.6},
+        simple.CoellenAward: []float64{1.1, 1.2, 1.3, 2.5},
+        simple.ActionsAward: []float64{0.0, 2.5, 1.1, 1.5, 1.1, 2.8},
+        simple.KeysAward: []float64{0.0, 1.6, 1.0, 1.5, 2.2},
+    },
+    Office: 1.5,
+    FirstOffice: 1.1,
+    AwardOffice: 1.1,
+    Network: map[int]float64 {
+        0: 0.8,
+        1: 1.05,
+        2: 1.4,
+        3: 1.6,
+        4: 2.0,
+        5: 2.5,
+        6: 3.0,
+    },
+    NonControlOffice: 0.9,
+    DiscOffice: 0.8,
+    Block: map[int]map[int]float64{
+        2: map[int]float64{0:0.0, 1:0.0, 2:0.0, 3:0.4, 4:0.6, 5:0.8, 6:1.0, 7:1.4, 8:1.4, 9:1.4, 10:1.8},
+        3: map[int]float64{0:0.0, 1:0.0, 2:0.0, 3:0.4, 4:0.6, 5:0.8, 6:1.0, 7:1.4, 8:1.4, 9:1.4, 10:1.8},
+        4: map[int]float64{0:0.0, 1:0.0, 2:0.0, 3:0.4, 4:0.6, 5:0.8, 6:1.0, 7:1.4, 8:1.4, 9:1.4, 10:1.8},
+        5: map[int]float64{0:0.0, 1:0.0, 2:0.0, 3:0.4, 4:0.6, 5:0.8, 6:1.0, 7:1.4, 8:1.4, 9:1.4, 10:1.8},
+    },
+    DoublePieceBlock: 0.5,
+    DoublePlayerBlock: 0.6,
+}
+var GenericMidWeights = Weights{
     Length: map[PlanLength]float64 {
         ShortPlan: 1.2,
         FullPlan : 1.1,
         AlmostPlan: 1.1,
         LongPlan: 1.1,
         UncompletablePlan: 0.3,
+    },
+    Move: map[int]float64{
+        -100: 0.5,
+        0: 0.7,
+        50: 0.9,
+        80: 1.0,
+        120: 1.2,
+        150: 1.5,
+        200: 1.8,
     },
     Bump: map[int]map[int]float64{
         3: map[int]float64{  0:0.0, 1:0.0, 2:0.8, 3:0.8, 4:0.8, 5:0.8, 6:0.8, 7:0.8, 8:0.8, 9:0.8, 10:0.8},
@@ -162,6 +243,63 @@ var GenericWeights = Weights{
     },
     NonControlOffice: 0.9,
     DiscOffice: 0.8,
+    Block: map[int]map[int]float64{
+        2: map[int]float64{0:0.0, 1:0.0, 2:0.0, 3:0.4, 4:0.6, 5:0.8, 6:1.0, 7:1.4, 8:1.4, 9:1.4, 10:1.8},
+        3: map[int]float64{0:0.0, 1:0.0, 2:0.0, 3:0.4, 4:0.6, 5:0.8, 6:1.0, 7:1.4, 8:1.4, 9:1.4, 10:1.8},
+        4: map[int]float64{0:0.0, 1:0.0, 2:0.0, 3:0.4, 4:0.6, 5:0.8, 6:1.0, 7:1.4, 8:1.4, 9:1.4, 10:1.8},
+        5: map[int]float64{0:0.0, 1:0.0, 2:0.0, 3:0.4, 4:0.6, 5:0.8, 6:1.0, 7:1.4, 8:1.4, 9:1.4, 10:1.8},
+    },
+    DoublePieceBlock: 0.5,
+    DoublePlayerBlock: 0.6,
+}
+var GenericLateWeights = Weights{
+    Length: map[PlanLength]float64 {
+        ShortPlan: 1.2,
+        FullPlan : 1.1,
+        AlmostPlan: 1.1,
+        LongPlan: 1.1,
+        UncompletablePlan: 0.3,
+    },
+    Move: map[int]float64{
+        -100: 0.5,
+        0: 0.7,
+        50: 0.9,
+        80: 1.0,
+        120: 1.2,
+        150: 1.5,
+        200: 1.8,
+    },
+    Bump: map[int]map[int]float64{
+        3: map[int]float64{  0:0.0, 1:0.0, 2:0.8, 3:0.8, 4:0.8, 5:0.8, 6:0.8, 7:0.8, 8:0.8, 9:0.8, 10:0.8},
+        5: map[int]float64{  0:0.0, 1:0.0, 2:0.8, 3:0.8, 4:0.8, 5:0.8, 6:0.8, 7:0.8, 8:0.8, 9:0.8, 10:0.8},
+        7: map[int]float64{  0:0.0, 1:0.0, 2:0.8, 3:0.8, 4:0.8, 5:0.8, 6:0.8, 7:0.8, 8:0.8, 9:0.8, 10:0.8},
+        100: map[int]float64{0:0.0, 1:0.0, 2:0.8, 3:0.8, 4:0.8, 5:0.8, 6:0.8, 7:0.8, 8:0.8, 9:0.8, 10:0.8},
+    },
+    DiscBump: 0.6,
+    MyPoints: 1.7,
+    OthersPoints: 0.5,
+    Awards: map[simple.Award][]float64 {
+        simple.DiscsAward: []float64{0.0, 1.5, 1.3, 1.5},
+        simple.PriviledgeAward: []float64{0.0, 1.5, 1.3, 1.5},
+        simple.BagsAward: []float64{0.0, 1.5, 1.2, 1.6},
+        simple.CoellenAward: []float64{1.1, 1.2, 1.3, 1.5},
+        simple.ActionsAward: []float64{0.0, 2.5, 1.1, 1.5, 1.1, 1.8},
+        simple.KeysAward: []float64{0.0, 1.6, 1.0, 1.5, 1.2},
+    },
+    Office: 1.9,
+    FirstOffice: 1.2,
+    AwardOffice: 1.0,
+    Network: map[int]float64 {
+        0: 0.8,
+        1: 1.15,
+        2: 1.8,
+        3: 2.0,
+        4: 2.5,
+        5: 4.0,
+        6: 4.0,
+    },
+    NonControlOffice: 0.7,
+    DiscOffice: 1.0,
     Block: map[int]map[int]float64{
         2: map[int]float64{0:0.0, 1:0.0, 2:0.0, 3:0.4, 4:0.6, 5:0.8, 6:1.0, 7:1.4, 8:1.4, 9:1.4, 10:1.8},
         3: map[int]float64{0:0.0, 1:0.0, 2:0.0, 3:0.4, 4:0.6, 5:0.8, 6:1.0, 7:1.4, 8:1.4, 9:1.4, 10:1.8},

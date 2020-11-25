@@ -8,11 +8,13 @@ import (
 type Fitness interface {
     Calculation(Weights) string
     Value(Weights) float64
+    //AdjustMovedScore(float64)
 }
 
 type PointsPlanFitness struct {
     Length PlanLength
     BumpInfos []BumpFitnessInfo
+    MovedScore float64
     MyPoints int
     OthersPoints int
 }
@@ -22,6 +24,7 @@ type AwardPlanFitness struct {
     Award simple.Award
     AwardsLeft int
     BumpInfos []BumpFitnessInfo
+    MovedScore float64
     MyPoints int
     OthersPoints int
 }
@@ -34,6 +37,7 @@ type OfficePlanFitness struct {
     DiscOffice bool
     NetworkDelta int
     BumpInfos []BumpFitnessInfo
+    MovedScore float64
     MyPoints int
     OthersPoints int
 }
@@ -42,6 +46,7 @@ type BlockPlanFitness struct {
     Length PlanLength
     Discs int
     StockAndSupply int // Capped at of 10
+    MovedScore float64
     OpponentDesire float64
     DoublePiece bool
     DoublePlayer bool
@@ -53,18 +58,18 @@ type BumpFitnessInfo struct {
     StockAndSupply int // Capped at of 10
 }
 
-func (a OfficePlanFitness) Calculation(w Weights) string {
+func (a *OfficePlanFitness) Calculation(w Weights) string {
     calc, _ := a.calculate(w)
     return calc
 }
 
-func (a OfficePlanFitness) Value(w Weights) float64 {
+func (a *OfficePlanFitness) Value(w Weights) float64 {
     _, value := a.calculate(w)
     return value
 }
 
-func (a OfficePlanFitness) calculate(w Weights) (string, float64) {
-    calc := "%s = 100"
+func (a *OfficePlanFitness) calculate(w Weights) (string, float64) {
+    calc := "%.2f = 100"
     value := 100.0
 
     calc = fmt.Sprintf("%s * %.2f (Length[%s])", calc, w.Length[a.Length], lengthNames[a.Length])
@@ -111,21 +116,39 @@ func (a OfficePlanFitness) calculate(w Weights) (string, float64) {
         value *= w.OthersPoints
     }
 
-    return calc, value
+    if a.MovedScore > 0.0001 || a.MovedScore < -0.0001 {
+        f := maxFloat(minFloat(a.MovedScore, 200.0), -200.0)
+        ok := false
+        weight := 1.0
+        for i:=int(f);i<=200;i++ {
+            weight, ok = w.Move[i]
+            if ok {
+                break
+            }
+        }
+        if !ok {
+            weight = 1.0
+        }
+
+        calc = fmt.Sprintf("%s * %.2f (Move[%.0f])", calc, weight, a.MovedScore)
+        value *= weight
+    }
+
+    return fmt.Sprintf(calc, value), value
 }
 
-func (a AwardPlanFitness) Calculation(w Weights) string {
+func (a *AwardPlanFitness) Calculation(w Weights) string {
     calc, _ := a.calculate(w)
     return calc
 }
 
-func (a AwardPlanFitness) Value(w Weights) float64 {
+func (a *AwardPlanFitness) Value(w Weights) float64 {
     _, value := a.calculate(w)
     return value
 }
 
-func (a AwardPlanFitness) calculate(w Weights) (string, float64) {
-    calc := "%s = 100"
+func (a *AwardPlanFitness) calculate(w Weights) (string, float64) {
+    calc := "%.2f = 100"
     value := 100.0
 
     calc = fmt.Sprintf("%s * %.2f (Length[%s])", calc, w.Length[a.Length], lengthNames[a.Length])
@@ -154,21 +177,39 @@ func (a AwardPlanFitness) calculate(w Weights) (string, float64) {
         value *= w.OthersPoints
     }
 
-    return calc, value
+    if a.MovedScore > 0.0001 || a.MovedScore < -0.0001 {
+        f := maxFloat(minFloat(a.MovedScore, 200.0), -200.0)
+        ok := false
+        weight := 1.0
+        for i:=int(f);i<=200;i++ {
+            weight, ok = w.Move[i]
+            if ok {
+                break
+            }
+        }
+        if !ok {
+            weight = 1.0
+        }
+
+        calc = fmt.Sprintf("%s * %.2f (Move[%.0f])", calc, weight, a.MovedScore)
+        value *= weight
+    }
+
+    return fmt.Sprintf(calc, value), value
 }
 
-func (a PointsPlanFitness) Calculation(w Weights) string {
+func (a *PointsPlanFitness) Calculation(w Weights) string {
     calc, _ := a.calculate(w)
     return calc
 }
 
-func (a PointsPlanFitness) Value(w Weights) float64 {
+func (a *PointsPlanFitness) Value(w Weights) float64 {
     _, value := a.calculate(w)
     return value
 }
 
-func (a PointsPlanFitness) calculate(w Weights) (string, float64) {
-    calc := "%s = 100"
+func (a *PointsPlanFitness) calculate(w Weights) (string, float64) {
+    calc := "%.2f = 100"
     value := 100.0
 
     calc = fmt.Sprintf("%s * %.2f (Length[%s])", calc, w.Length[a.Length], lengthNames[a.Length])
@@ -193,21 +234,39 @@ func (a PointsPlanFitness) calculate(w Weights) (string, float64) {
         value *= w.OthersPoints
     }
 
-    return calc, value
+    if a.MovedScore > 0.0001 || a.MovedScore < -0.0001 {
+        f := maxFloat(minFloat(a.MovedScore, 200.0), -200.0)
+        ok := false
+        weight := 1.0
+        for i:=int(f);i<=200;i++ {
+            weight, ok = w.Move[i]
+            if ok {
+                break
+            }
+        }
+        if !ok {
+            weight = 1.0
+        }
+
+        calc = fmt.Sprintf("%s * %.2f (Move[%.0f])", calc, weight, a.MovedScore)
+        value *= weight
+    }
+
+    return fmt.Sprintf(calc, value), value
 }
 
-func (a BlockPlanFitness) Calculation(w Weights) string {
+func (a *BlockPlanFitness) Calculation(w Weights) string {
     calc, _ := a.calculate(w)
     return calc
 }
 
-func (a BlockPlanFitness) Value(w Weights) float64 {
+func (a *BlockPlanFitness) Value(w Weights) float64 {
     _, value := a.calculate(w)
     return value
 }
 
-func (a BlockPlanFitness) calculate(w Weights) (string, float64) {
-    calc := "%s = 100"
+func (a *BlockPlanFitness) calculate(w Weights) (string, float64) {
+    calc := "%.2f = 100"
     value := 100.0
 
     calc = fmt.Sprintf("%s * %.2f (Length[%s])", calc, w.Length[a.Length], lengthNames[a.Length])
@@ -226,6 +285,24 @@ func (a BlockPlanFitness) calculate(w Weights) (string, float64) {
         value *= w.DoublePlayerBlock
     }
 
+    if a.MovedScore > 0.0001 || a.MovedScore < -0.0001 {
+        f := maxFloat(minFloat(a.MovedScore, 200.0), -200.0)
+        ok := false
+        weight := 1.0
+        for i:=int(f);i<=200;i++ {
+            weight, ok = w.Move[i]
+            if ok {
+                break
+            }
+        }
+        if !ok {
+            weight = 1.0
+        }
+
+        calc = fmt.Sprintf("%s * %.2f (Move[%.0f])", calc, weight, a.MovedScore)
+        value *= weight
+    }
+
     // How much do you like to Block?  This depends on Your Disc level and the
     // pieces in your Stock+Supply (capped at 10).  This should have values for
     // [3][0-10], [5][0-10], [7][0-10], and [100][0-10].
@@ -233,5 +310,5 @@ func (a BlockPlanFitness) calculate(w Weights) (string, float64) {
         calc, w.Block[a.Discs][a.StockAndSupply], a.Discs, a.StockAndSupply)
     value *= w.Block[a.Discs][a.StockAndSupply]
 
-    return calc, value
+    return fmt.Sprintf(calc, value), value
 }
