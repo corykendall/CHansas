@@ -286,10 +286,6 @@ func (b *RouteBrain) useLeftoverMoves(plans []Plan, index int, piecesWorstToBest
             continue
         }
 
-        // TODO: I think this is the cause of the next bug: Jacob executes a
-        // plan (move to block), has a move leftover, and then tries to do a
-        // move which is really a bump.
-
         // This is a little shiesty; I'm saying any time another Plan's
         // subaction has a Dest on a route and the following subaction doesn't
         // have a Dest of Stock.  This way I'm sure it's not a bump, because
