@@ -345,6 +345,12 @@ func (b *RouteBrain) useLeftoverMoves(plans []Plan, index int, piecesWorstToBest
     }
     plans[index].Subactions = insertSubactions(plans[index].Subactions, moveIndex, ss...)
 
+    // Moves always happen before bumps. If we had a bump after this point, we
+    // need to update its index into the plan's subactions.
+    for i, b := range plans[index].Bumps {
+        plans[index].Bumps[i] = b+len(ss)
+    }
+
     // Update the fitness of our plan to include the fact that we're doing
     // these extra moves.
     if plans[index].Goal == AwardGoal {
@@ -427,8 +433,8 @@ func (b *RouteBrain) generatePlan(r int, g Goal, c Context, p []PieceScore) Plan
     }
     after := b.serializeTable()
     if before != after {
-        panic(fmt.Sprintf("RouteBrain mutated table! r=%d g=%d c=%v sa=%v before=%s, after=%s",
-            r, g, c, ret.Subactions, before, after))
+        panic(fmt.Sprintf("RouteBrain mutated table! r=%d g=%d c=%v p=%v sa=%v before=%s, after=%s",
+            r, g, c, p, ret.Subactions, before, after))
     }
     return ret
 }
@@ -1408,7 +1414,7 @@ func (b *RouteBrain) handleNotifySubactionError(d message.NotifySubactionErrorDa
 // way to keep our representation valid.
 func (b *RouteBrain) handleBump(d message.NotifySubactionData) []message.Client {
     b.debugf("I have been bumped at %v and can replace %d pieces", d.TurnState.BumpingLocation, d.TurnState.BumpingReplaces)
-    c := b.buildContext(100)
+    c := b.buildContext(1)
 
     r := []message.Client{}
     toUndo := []simple.Subaction{}
