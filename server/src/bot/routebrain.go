@@ -427,8 +427,8 @@ func (b *RouteBrain) generatePlan(r int, g Goal, c Context, p []PieceScore) Plan
     }
     after := b.serializeTable()
     if before != after {
-        panic(fmt.Sprintf("RouteBrain mutated table! r=%d g=%d c=%v before=%s, after=%s",
-            r, g, c, before, after))
+        panic(fmt.Sprintf("RouteBrain mutated table! r=%d g=%d c=%v sa=%v before=%s, after=%s",
+            r, g, c, ret.Subactions, before, after))
     }
     return ret
 }
@@ -1407,64 +1407,98 @@ func (b *RouteBrain) handleNotifySubactionError(d message.NotifySubactionErrorDa
 // b.table when we receive NotifySubaction messages, as this is the simplest
 // way to keep our representation valid.
 func (b *RouteBrain) handleBump(d message.NotifySubactionData) []message.Client {
+    b.debugf("I have been bumped at %v and can replace %d pieces", d.TurnState.BumpingLocation, d.TurnState.BumpingReplaces)
+    c := b.buildContext(100)
 
     r := []message.Client{}
     toUndo := []simple.Subaction{}
     do := func(a simple.Subaction) {
         toUndo = append(toUndo, a)
         b.applySubaction(a)
+        b.debugf("Chose: %v", a)
         r = append(r, message.Client{
             CType: message.DoSubaction,
             Data: a,
         })
     }
 
-    /*
-    // TODO: This.
-    routes := map[int]simple.Route{}
-    for _, l := range b.table.ValidBumps(d.TurnState.BumpingLocation) {
-        routes[l.Id] = b.table.Board.Routes[l.Id]
-    }
-
-    routeScores := map[int]int{}
-    for _, route := range routes {
-        a := b.getRouteAward(r)
-    }
-    */
-
-    b.debugf("Bot valid bump landing spots: %v", b.table.ValidBumps(d.TurnState.BumpingLocation))
-
-    do(simple.Subaction{
-        Source: d.TurnState.BumpingLocation,
-        Dest: b.table.ValidBumps(d.TurnState.BumpingLocation)[0],
+    // Figure out which pieces I'm moving.  I give them a very low score to be
+    // sure plans are incentivized by moving these pieces over "placing" new
+    // pieces.
+    ps := []PieceScore{PieceScore{
         Piece: b.table.GetPiece(d.TurnState.BumpingLocation),
-    })
-
+        Location: d.TurnState.BumpingLocation,
+        Score: -100.0,
+    }}
     for i:=0;i<d.TurnState.BumpingReplaces;i++ {
-        if l := b.myStock(b.myDisc()); l != simple.NoneLocation {
-            do(simple.Subaction{
-                Source: l,
-                Dest: b.table.ValidBumps(d.TurnState.BumpingLocation)[0],
-                Piece: b.myDisc(),
+        l := b.myStock(b.myCube())
+        if l == simple.NoneLocation {
+            l = b.myStock(b.myDisc())
+        }
+        if l == simple.NoneLocation {
+            l = b.mySupply(b.myCube())
+        }
+        if l == simple.NoneLocation {
+            l = b.mySupply(b.myDisc())
+        }
+        if l != simple.NoneLocation {
+            ps = append(ps, PieceScore{
+                Piece: b.table.GetPiece(l),
+                Location: l,
+                Score: -100.0,
             })
-        } else if l := b.myStock(b.myCube()); l != simple.NoneLocation {
-            do(simple.Subaction{
-                Source: l,
-                Dest: b.table.ValidBumps(d.TurnState.BumpingLocation)[0],
-                Piece: b.myCube(),
-            })
-        } else if l := b.mySupply(b.myDisc()); l != simple.NoneLocation {
-            do(simple.Subaction{
-                Source: l,
-                Dest: b.table.ValidBumps(d.TurnState.BumpingLocation)[0],
-                Piece: b.myDisc(),
-            })
-        } else if l := b.mySupply(b.myCube()); l != simple.NoneLocation {
-            do(simple.Subaction{
-                Source: l,
-                Dest: b.table.ValidBumps(d.TurnState.BumpingLocation)[0],
-                Piece: b.myCube(),
-            })
+        }
+    }
+
+    // If I don't have enough in Stock+Supply, we can move pieces on the board.
+    // This gets sufficiently rare and  more complicated for us to extract it.
+    if len(ps) < 1 + d.TurnState.BumpingReplaces {
+        b.debugf("I only have %d pieces in Stock+Supply so others are moves", len(ps)-1)
+        return b.handleBumpWithBoardMoves(d.TurnState, ps)
+    }
+    b.debugf("I can replace from Stock+Supply")
+
+    // For each piece, find the routes I can legally place on, and chose the
+    // one with the highest score.  Make sure we are applying our replacement
+    // so that ValidBumps can catch if we can go 1 distance further from the
+    // bumpinglocation on the next iteration.
+    for _, p := range ps {
+        fitness := map[int]Plan{}
+        for _, l := range b.table.ValidBumps(d.TurnState.BumpingLocation) {
+            if _, ok := fitness[l.Id]; ok {
+                continue
+            }
+            for _, g := range allGoals {
+                p := b.generatePlan(l.Id, g, c, []PieceScore{p})
+                if old, ok := fitness[l.Id]; !ok || old.FitnessValue < p.FitnessValue {
+                    fitness[l.Id] = p
+                }
+            }
+        }
+        plans := []Plan{}
+        for i, p := range fitness {
+            b.debugf("Generated the following bump response plan: %d(%.2f):%v", i, p.FitnessValue, p.Subactions)
+            plans = append(plans, p)
+        }
+        sort.Slice(plans, func (i, j int) bool {
+            return plans[i].FitnessValue > plans[j].FitnessValue
+        })
+        for _, plan := range plans {
+            handled := false
+            for _, s := range plan.Subactions {
+                if s.Source == p.Location {
+                    do(simple.Subaction{
+                        Source: p.Location,
+                        Dest: s.Dest,
+                        Piece: p.Piece,
+                    })
+                    handled = true
+                    break
+                }
+            }
+            if handled {
+                break
+            }
         }
     }
 
@@ -1474,6 +1508,23 @@ func (b *RouteBrain) handleBump(d message.NotifySubactionData) []message.Client 
         Data: message.EndBumpData{},
     })
     return r
+}
+
+func (b *RouteBrain) handleBumpWithBoardMoves(d simple.TurnState, ps []PieceScore) []message.Client {
+
+    // TODO: Complicated and unusual.  Let's do something valid (move the
+    // bumped piece) but not use any other moves.
+    return []message.Client{message.Client{
+        CType: message.DoSubaction,
+        Data: simple.Subaction{
+            Source: d.BumpingLocation,
+            Dest: b.table.ValidBumps(d.BumpingLocation)[0],
+            Piece: ps[0].Piece,
+        },
+    }, message.Client{
+        CType: message.EndBump,
+        Data: message.EndBumpData{},
+    }}
 }
 
 func (b *RouteBrain) myStockAndSupplyCount() int {

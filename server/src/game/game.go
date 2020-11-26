@@ -1419,7 +1419,7 @@ func (g *Game) handleDoSubaction(p int, c client.Client, d simple.Subaction) {
                         break
                     }
                 }
-                if !left && g.turnState.ClearingAward == simple.NoneAward {
+                if !left && (g.turnState.ClearingAward == simple.NoneAward || g.turnState.ClearingAward == simple.CoellenAward) {
                     g.turnState.Type = simple.NoneTurnStateType
                     g.turnState.ClearingRouteId = 0
                     g.turnState.ClearingCanOffice = false
